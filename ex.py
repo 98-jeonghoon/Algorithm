@@ -620,30 +620,38 @@
 
 from collections import deque
 
-n, m = map(int,input().split())
-graph = []
-for i in range(n):
-    graph.append(list(map(int,input())))
+n, m, v = map(int, input().split())
+graph = [[] for _ in range(n+1)]
 
-dx = [-1,1,0,0]
-dy = [0,0,-1,1]
-
-def bfs(x,y):
-    queue = deque()
-    queue.append((x,y))
+for _ in range(m):
+    a, b = map(int, input().split())
+    graph[a].append(b)
+    graph[b].append(a)
+    
+for i in range(1, n+1):
+    graph[i].sort()
+    
+visited = [False] * (n+1)
+def dfs(graph, v, visited):
+    visited[v] = True
+    print(v, end=' ')
+    for i in graph[v]:
+        if not visited[i]:
+            dfs(graph, i, visited)
+dfs(graph, v, visited)
+print()
+visited = [False] * (n+1)
+def bfs(graph, v, visited):
+    queue = deque([v])
+    visited[v] = True
     while queue:
-        x, y =queue.popleft()
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if nx <0 or ny <0 or nx >=n or ny >=m:
-                continue
-            if graph[nx][ny]==0:
-                continue
-            if graph[nx][ny]==1:
-                graph[nx][ny]=graph[x][y]+1
-                queue.append((nx,ny))
-                
-    return graph[n-1][m-1]
-
-print(bfs(0,0))    
+        now = queue.popleft()
+        print(now, end=' ')
+        for i in graph[now]:
+            if not visited[i]:
+                queue.append(i)
+                visited[i] = True
+    
+bfs(graph, v, visited)
+        
+        
