@@ -639,7 +639,9 @@ def dfs(graph, v, visited):
         if not visited[i]:
             dfs(graph, i, visited)
 dfs(graph, v, visited)
+
 print()
+
 visited = [False] * (n+1)
 def bfs(graph, v, visited):
     queue = deque([v])
