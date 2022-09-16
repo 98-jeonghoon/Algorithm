@@ -6,5 +6,5 @@ for _ in range(n):
 
 array.sort(key=lambda student: student[1])
 
-for i in array:
-    print(i[0], end=' ')
+for student in array:
+    print(student[0], end=' ')
