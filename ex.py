@@ -50,22 +50,71 @@
 #                 count += 1
 #     print(count)
 
-def binary_search(array, target, start, end):
-    while start <= end:
-        mid = (start + end) // 2
-        if array[mid] == target:
-            return mid
-        elif array[mid] > target:
-            end = mid -1
-        else:
-            start = mid + 1
-    return None
+# def binary_search(array, target, start, end):
+#     while start <= end:
+#         mid = (start + end) // 2
+#         if array[mid] == target:
+#             return mid
+#         elif array[mid] > target:
+#             end = mid -1
+#         else:
+#             start = mid + 1
+#     return None
 
-n, target = list(map(int, input().split()))
-array = list(map(int, input().split()))
+# n, target = list(map(int, input().split()))
+# array = list(map(int, input().split()))
 
-result = binary_search(array, target, 0, n-1)
-if result == None:
-    print('원소 존재 하지 않음')
-else:
-    print(result + 1)
+# result = binary_search(array, target, 0, n-1)
+# if result == None:
+#     print('원소 존재 하지 않음')
+# else:
+#     print(result + 1)
+
+
+# def binary_search(array, target, start, end):
+#     while start <= end:
+#         mid = (start + end) // 2
+#         if array[mid] == target:
+#             return mid
+#         elif array[mid] > target:
+#             end = mid - 1
+#         else:
+#             start = mid + 1
+#     return None
+
+# n, target = map(int, input().split())
+# array = list(map(int, input().split()))
+
+# result = binary_search(array, target, 0, n-1)
+# if result == None:
+#     print('원소 존재 X')
+# else:
+#     print(result+1)
+
+# def fibo(x):
+#     if x == 1 or x == 2:
+#         return 1
+#     return fibo(x-1) + fibo(x-2)
+
+# print(fibo(50))
+
+d = [0] * 1000
+
+# def fibo(x):
+#     if x == 1 or x == 2:
+#         return 1
+#     if d[x] != 0:
+#         return d[x]
+#     d[x] = fibo(x-1) + fibo(x-2)
+#     return d[x]
+
+# print(fibo(99))
+
+d[1] = 1
+d[2] = 1
+n = 99
+
+for i in range(3, n+1):
+    d[i] = d[i-1] + d[i-2]
+    
+print(d[n])
