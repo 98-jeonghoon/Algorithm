@@ -1,3 +1,4 @@
+#간단한 다익스트라 알고리즘 구현
 # import sys
 # input = sys.stdin.readline
 # INF = int(1e9)
@@ -43,6 +44,7 @@
 #     else:
 #         print(distance[i])
 
+# 힙을 이용한 구현
 import heapq
 import sys
 input = sys.stdin.readline
