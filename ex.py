@@ -90,3 +90,36 @@
 #     print('원소 존재 X')
 # else:
 #     print(result+1)
+
+
+
+# def binary_search(array, target, start, end):
+#     while start <= end:
+#         mid = (start + end) // 2
+#         if array[mid] == target:
+#             return mid
+#         elif array[mid] > target:
+#             end = mid - 1
+#         else:   
+#             start = mid + 1
+#     return None
+            
+# n, target = map(int , input().split())
+# array = list(map(int , input().split()))
+
+# result = binary_search(array, target, 0, n-1)
+# if result == None:
+#     print('none')
+# else:
+#     print(result + 1)
+
+import heapq
+
+heap = []
+heapq.heappush(heap, (50,50))
+heapq.heappush(heap, (20,50))
+heapq.heappush(heap, (30,20))
+heapq.heappush(heap, (80,40))
+print(heap)
+for i in range(4):
+    print(heapq.heappop(heap))
