@@ -114,12 +114,41 @@
 #     print(result + 1)
 
 import heapq
+import sys
 
-heap = []
-heapq.heappush(heap, (50,50))
-heapq.heappush(heap, (20,50))
-heapq.heappush(heap, (30,20))
-heapq.heappush(heap, (80,40))
-print(heap)
-for i in range(4):
-    print(heapq.heappop(heap))
+input = sys.stdin.readline
+INF = int(1e9)
+# n = 노드, m = 간선
+n, m = map(int, input().split())
+start = int(input())
+graph = [[] for _ in range(n+1)]
+distance = [INF] * (n+1)
+# a노드에서 b노드로 이동하는 c비용
+# b는 node, c는 비용
+for _ in range(m):
+    a, b, c = map(int, input().split())
+    graph[a].append((b, c))
+
+def dijkstra(start):
+    q = []
+    distance[start] = 0
+    # 거리, 노드
+    heapq.heappush(q, (0, start))
+    while q:
+        dist, now = heapq.heappop(q)
+        if distance[now] < dist:
+            continue
+        for i in graph[now]:
+            cost = dist + i[1]
+            if distance[i[0]] > cost:
+                distance[i[0]] = cost
+                heapq.heappush(q, (cost, i[0]))
+                
+                
+dijkstra(start)
+
+for i in range(1, n+1):
+    if distance[i] == INF:
+        print('inf')
+    else:
+        print(distance[i])
