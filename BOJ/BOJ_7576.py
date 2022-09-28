@@ -27,18 +27,14 @@ def bfs():
             if graph[nx][ny] == 0:
                 graph[nx][ny] = graph[x][y] + 1
                 queue.append((nx, ny))
-        
 bfs()
 
-flag = False
 days = 0
 for i in range(n):
     for j in range(m):
         if graph[i][j] == 0:
-            flag = True
+            print(-1)
+            exit(0)
         days = max(days, graph[i][j])
         
-if flag:
-    print(-1)
-else:
-    print(days-1)
+print(days-1)
