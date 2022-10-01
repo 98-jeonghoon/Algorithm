@@ -31,38 +31,17 @@ def bfs(x, y, graph, color):
                 graph[nx][ny] = '0'
                 queue.append((nx, ny))
             
-# count = 0
-# red_count = 0
-
-# for i in range(n):
-#     for j in range(n):
-#         if graph[i][j] in 'RGB':
-#             bfs(i, j, graph, graph[i][j])
-#             count += 1
-            
-#         if red_graph[i][j] in 'RB':
-#             bfs(i, j, red_graph, red_graph[i][j])
-#             red_count += 1
-            
-# print(count , red_count)
-    
-def dfs(x,y, graph, color):
-    if x < 0 or y < 0 or x >= n or y >= n:
-        return False
-    if graph[x][y] == color:
-        graph[x][y] = '0'
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            dfs(nx, ny, graph, color)
-        return True
-    return False
-        
-            
 count = 0
-red_count = 0    
+red_count = 0
+
 for i in range(n):
     for j in range(n):
-        if dfs(i, j, graph, graph[i][j]) == True:
+        if graph[i][j] in 'RGB':
+            bfs(i, j, graph, graph[i][j])
             count += 1
-print(count)
+            
+        if red_graph[i][j] in 'RB':
+            bfs(i, j, red_graph, red_graph[i][j])
+            red_count += 1
+            
+print(count , red_count)
