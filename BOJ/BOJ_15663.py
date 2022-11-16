@@ -10,7 +10,9 @@ def backtracking(start):
         return
     overlap = 0
     for i in range(0, len(num)):
-        if not visited[i] and overlap != num[i]:
+        # if visited[i]:
+        #     continue 
+        if overlap != num[i]:
             visited[i] = True
             arr.append(num[i])
             overlap = num[i]

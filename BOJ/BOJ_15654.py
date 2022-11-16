@@ -8,13 +8,11 @@ def backtracking():
     if len(arr) == m:
         print(' '.join(map(str, arr)))
         return
-    for i in num:
-        if visited[num.index(i)]:
+    for i in range(0, len(num)):
+        if num[i] in arr:
             continue
-        visited[num.index(i)] = True
-        arr.append(i)
+        arr.append(num[i])
         backtracking()
         arr.pop()
-        visited[num.index(i)] = False
 
 backtracking()

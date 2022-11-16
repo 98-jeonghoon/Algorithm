@@ -1,7 +1,7 @@
 n, m = map(int, input().split())
 arr = []
 visited = [False] * (n+1)
-def backtracking():
+def backtracking(start):
     if len(arr) == m:
         print(' '.join(map(str, arr)))
         return
@@ -11,8 +11,8 @@ def backtracking():
             continue
         visited[i] = True
         arr.append(i)
-        backtracking()
+        backtracking(i)
         visited[i] = False
         arr.pop()
         
-backtracking()
+backtracking(1)
