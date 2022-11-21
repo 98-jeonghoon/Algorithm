@@ -1,64 +1,52 @@
-# from collections import deque
-
-# def bfs(x,y):
-#     queue = deque()
-#     queue.append((x,y))
-#     while queue:
-#         x, y = queue.popleft()
-#         for i in range(4):
-#             nx = x + dx[i]
-#             ny = y + dy[i]
-#             if nx < 0 or ny < 0 or nx >= n or ny >=m:
-#                 continue
-#             if graph[nx][ny] == 0:
-#                 continue
-#             if graph[nx][ny] == 1:
-#                 graph[nx][ny] = 0
-#                 queue.append((nx, ny))
-
-# dx = [-1,1,0,0]
-# dy = [0,0,-1,1]
-
-# T = int(input())
-# for _ in range(T):
-#     m , n, k = map(int, input().split())
-#     graph = [[0]*m for _ in range(n)]
-#     count = 0
-#     for i in range(k):
-#         a, b= map(int, input().split())
-#         graph[b][a] = 1
-#     for i in range(n):
-#         for j in range(m):
-#             if graph[i][j] == 1:
-#                 bfs(i,j)
-#                 count +=1    
-#     print(count)
-
 from collections import deque
-n , m = map(int, input().split())
-graph = [[] for _ in range(n+1)]
-for i in range(m):
-  a, b = map(int, input().split())
-  graph[a].append(b)
-  graph[b].append(a)
+import copy
 
-visited = [False] * (n+1)
+n, m = map(int, input().split())
+graph = []
+for _ in range(n):
+  graph.append(list(map(int, input().split())))
 
-def bfs(graph, start, visited):
-  queue = deque([start])
-  visited[start] = True
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+def makewall(count):
+  if count == 3:
+    virus()
+    return
+  
+  for i in range(n):
+    for j in range(m):
+      if graph[i][j] == 0:
+        graph[i][j] = 1
+        makewall(count+1)
+        graph[i][j] = 0
+        
+def virus():
+  global result
+  queue = deque()
+  temp_graph = copy.deepcopy(graph)
+  for i in range(n):
+    for j in range(m):
+      if temp_graph[i][j] == 2:
+        queue.append((i, j))
+        
   while queue:
-    v = queue.popleft()
-    for i in graph[v]:
-      if not visited[i]:
-        queue.append(i)
-        visited[i] = True
-
-count = 0
-
-for i in range(1, n+1):
-  if not visited[i]:
-    bfs(graph, i, visited)
-    count += 1
-
-print(count)
+    x, y = queue.popleft()
+    for i in range(4):
+      nx = x + dx[i]
+      ny = y + dy[i]
+      if nx < 0 or ny < 0 or nx >= n or ny >= m:
+        continue
+      if temp_graph[nx][ny] == 0:
+        temp_graph[nx][ny] = 2
+        queue.append((nx, ny))
+  cnt = 0
+  
+  for i in range(n):
+      cnt += temp_graph[i].count(0)
+      
+  result = max(result, cnt)
+  
+result = 0
+makewall(0)
+print(result)
