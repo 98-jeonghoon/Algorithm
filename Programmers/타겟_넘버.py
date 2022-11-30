@@ -9,13 +9,13 @@ def solution(numbers, target):
     queue.append([+numbers[0], 0])
     
     while queue :
-        num, i = queue.popleft()
-        if i+1 == length :
+        num, idx = queue.popleft()
+        if idx+1 == length :
             if num == target:
                 answer += 1
         else :
-            queue.append([num - numbers[i + 1], i + 1])
-            queue.append([num + numbers[i + 1], i + 1])
+            queue.append([num - numbers[idx + 1], idx + 1])
+            queue.append([num + numbers[idx + 1], idx + 1])
     
     return answer
 
