@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # n, m = map(int, input().split())
 
 # graph = []
@@ -481,3 +482,13 @@
 arr = list(map(int, input().split()))
 total = sum(arr)
 print(total)
+=======
+def solution(arr1, arr2):
+    answer = [[0] * len(arr2[0]) for _ in range(len(arr1))]
+    for i in range(len(answer)):
+        for j in range(len(arr2[0])):
+            for k in range(len(arr1[0])):
+                answer[i][j] += arr1[i][k] * arr2[k][j]
+                
+solution([[1, 4], [3, 2], [4, 1]], [[3, 3], [3, 3]])
+>>>>>>> Stashed changes
