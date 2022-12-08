@@ -414,70 +414,52 @@
 #     print(count)
 
 
-# from collections import deque
-# import copy
+from collections import deque
+import copy
 
-# n, m = map(int, input().split())
-# graph = []
-# for _  in range(n):
-#     graph.append(list(map(int, input().split())))
-# dx = [-1, 1, 0, 0]
-# dy = [0, 0, -1, 1]
-# answer = 0
-# def bfs():
-#   count = 0
-#   global answer
-#   queue = deque()
-#   tmp_graph = copy.deepcopy(graph)
-#   for i in range(n):
-#     for j in range(m):
-#       if tmp_graph[i][j] == 2:
-#         queue.append((i, j))
+n, m = map(int, input().split())
+graph = []
+for _  in range(n):
+    graph.append(list(map(int, input().split())))
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+answer = 0
+def bfs():
+  count = 0
+  global answer
+  queue = deque()
+  tmp_graph = copy.deepcopy(graph)
+  for i in range(n):
+    for j in range(m):
+      if tmp_graph[i][j] == 2:
+        queue.append((i, j))
 
-#   while queue:
-#     x, y = queue.popleft()
-#     for i in range(4):
-#       nx = x + dx[i]
-#       ny = y + dy[i]
-#       if nx < 0 or ny < 0 or nx >= n or ny >=m:
-#         continue
-#       if tmp_graph[nx][ny] == 0:
-#         tmp_graph[nx][ny] = 2
-#         queue.append((nx, ny))
+  while queue:
+    x, y = queue.popleft()
+    for i in range(4):
+      nx = x + dx[i]
+      ny = y + dy[i]
+      if nx < 0 or ny < 0 or nx >= n or ny >=m:
+        continue
+      if tmp_graph[nx][ny] == 0:
+        tmp_graph[nx][ny] = 2
+        queue.append((nx, ny))
 
-#   for i in range(n):
-#     count += tmp_graph[i].count(0)
-#     answer = max(answer, count)
-#   return answer
+  for i in range(n):
+    count += tmp_graph[i].count(0)
+    answer = max(answer, count)
+  return answer
   
-# def wall(cnt):
-#   if cnt == 3:
-#     bfs()
-#     return
+def wall(cnt):
+  if cnt == 3:
+    bfs()
+    return
 
-#   for i in range(n):
-#     for j in range(m):
-#       if graph[i][j] == 0:
-#         graph[i][j] = 1
-#         wall(cnt+1)
-#         graph[i][j] = 0
-# wall(0)
-# print(bfs())
-
-
-# def solution(brown, yellow):
-#     total = yellow + brown
-#     for b in range(1, total+1):
-#         if (total / b) % 1 == 0:
-#             a = total // b
-#             if a >= b:
-#                 if 2*a + 2*b == brown + 4:
-#                     return [a, b]
-                
-
-# print(solution(10 ,2))
-
-
-arr = list(map(int, input().split()))
-total = sum(arr)
-print(total)
+  for i in range(n):
+    for j in range(m):
+      if graph[i][j] == 0:
+        graph[i][j] = 1
+        wall(cnt+1)
+        graph[i][j] = 0
+wall(0)
+print(bfs())

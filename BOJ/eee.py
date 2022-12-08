@@ -1,40 +1,57 @@
-from collections import deque
+import sys
+import copy
+input = sys.stdin.readline
+sys.setrecursionlimit(10**6)
+N = int(input())
+rg_count = 0
+r_count = 0
+g_count = 0
+b_count = 0
 
-# N, M을 공백을 기준으로 구분하여 입력 받기
-n, m = map(int, input().split())
-# 2차원 리스트의 맵 정보 입력 받기
-graph = []
-for i in range(n):
-    graph.append(list(map(int, input())))
+greed = []
+for _ in range(N):
+    greed.append(list(map(str,input().rstrip())))
+rg_greed = copy.deepcopy(greed)
 
-# 이동할 네 가지 방향 정의 (상, 하, 좌, 우)
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
+def RedGreenEqual(x,y):
+    if x < 0 or x >= N or y < 0 or y >= N:
+        return False
 
-# BFS 소스코드 구현
-def bfs(x, y):
-    # 큐(Queue) 구현을 위해 deque 라이브러리 사용
-    queue = deque()
-    queue.append((x, y))
-    # 큐가 빌 때까지 반복하기
-    while queue:
-        x, y = queue.popleft()
-        # 현재 위치에서 4가지 방향으로의 위치 확인
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            # 미로 찾기 공간을 벗어난 경우 무시
-            if nx < 0 or nx >= n or ny < 0 or ny >= m:
-                continue
-            # 벽인 경우 무시
-            if graph[nx][ny] == 0:
-                continue
-            # 해당 노드를 처음 방문하는 경우에만 최단 거리 기록
-            if graph[nx][ny] == 1:
-                graph[nx][ny] = graph[x][y] + 1
-                queue.append((nx, ny))
-    # 가장 오른쪽 아래까지의 최단 거리 반환
-    return graph[n - 1][m - 1]
+    if rg_greed[x][y] == 'R' or rg_greed[x][y] == 'G':
+        rg_greed[x][y] = 'Z'
+        RedGreenEqual(x + 1, y)
+        RedGreenEqual(x - 1, y)
+        RedGreenEqual(x, y + 1)
+        RedGreenEqual(x, y - 1)
+        return True
+    return False
 
-# BFS를 수행한 결과 출력
-print(bfs(0, 0))
+def ColorArea(x,y,color):
+
+    if x < 0 or x >= N or y < 0 or y >= N:
+        return False
+
+    if greed[x][y] == color:
+        greed[x][y] = 'Z'
+        ColorArea(x + 1, y, color)
+        ColorArea(x - 1, y, color)
+        ColorArea(x, y + 1, color)
+        ColorArea(x, y - 1, color)
+        return True
+    return False
+
+for i in range(N):
+    for j in range(N):
+        if ColorArea(i,j,'R') == True:
+            r_count += 1
+        if ColorArea(i,j,'G') == True:
+            g_count += 1
+        if ColorArea(i,j,'B') == True:
+            b_count += 1
+
+for i in range(N):
+    for j in range(N):
+        if RedGreenEqual(i,j) == True:
+            rg_count += 1
+
+print(r_count + g_count + b_count, rg_count + b_count)
