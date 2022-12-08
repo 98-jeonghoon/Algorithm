@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # n, m = map(int, input().split())
 
 # graph = []
@@ -450,16 +451,34 @@ def bfs():
     answer = max(answer, count)
   return answer
   
-def wall(cnt):
-  if cnt == 3:
-    bfs()
-    return
+# def wall(cnt):
+#   if cnt == 3:
+#     bfs()
+#     return
 
-  for i in range(n):
-    for j in range(m):
-      if graph[i][j] == 0:
-        graph[i][j] = 1
-        wall(cnt+1)
-        graph[i][j] = 0
-wall(0)
-print(bfs())
+#   for i in range(n):
+#     for j in range(m):
+#       if graph[i][j] == 0:
+#         graph[i][j] = 1
+#         wall(cnt+1)
+#         graph[i][j] = 0
+# wall(0)
+# print(bfs())
+
+
+# def solution(brown, yellow):
+#     total = yellow + brown
+#     for b in range(1, total+1):
+#         if (total / b) % 1 == 0:
+#             a = total // b
+#             if a >= b:
+#                 if 2*a + 2*b == brown + 4:
+#                     return [a, b]
+                
+
+# print(solution(10 ,2))
+
+
+arr = list(map(int, input().split()))
+total = sum(arr)
+print(total)
