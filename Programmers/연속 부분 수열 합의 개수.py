@@ -10,19 +10,6 @@ def solution(elements):
     
     return len(answer)
 
-#     return answer
-# def solution(elements):
-#     answer = []
-#     elements = elements * 2
-#     for i in range(0, len(elements)):
-#         for j in range(0, len(elements)):
-#             answer.append(sum(elements[j:j+i+1]))
-#     print(answer)
-    
-#     answer = list(set(answer))
-
-#     return answer
-
 print(solution([7,9,1,1,4]))
 
 # arr = [7,9,1,1,4]
