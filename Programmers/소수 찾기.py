@@ -15,7 +15,7 @@ def solution(numbers):
     arr = list(set(list(map(int, arr))))
     print(arr)
     for i in arr:
-        if i == 1:
+        if i == 1 or i == 0:
             continue
         if is_prime_number(i):
             answer += 1
