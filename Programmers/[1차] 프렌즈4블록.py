@@ -1,37 +1,40 @@
 def solution(m, n, board):
-    board = [list(board[i]) for i in range(m)]
+    maps = []
+    for i in board:
+        maps.append(list(i))
     answer = 0
-    rm = set()
+    remove = set()
+    
     while True:
-        for i in range(m-1):
-            for j in range(n-1):
-                t = board[i][j]
-                if t == []:
+        for i in range(m - 1):
+            for j in range(n - 1):
+                now = maps[i][j]
+                if maps[i][j] == []:
                     continue
-                if board[i+1][j] == t and board[i][j+1] == t and board[i+1][j+1] == t:
-                    rm.add((i, j))
-                    rm.add((i+1, j))
-                    rm.add((i, j+1))
-                    rm.add((i+1, j+1))
-            
-        if rm:
-            answer += len(rm)
-            for i, j in rm:
-                board[i][j] = []
-            rm = set()
+                if maps[i][j+1] == now and maps[i+1][j] == now and maps[i+1][j+1] == now:
+                    remove.add((i, j))
+                    remove.add((i+1, j))
+                    remove.add((i, j+1))
+                    remove.add((i+1, j+1))
+                    
+        if remove:
+            answer += len(remove)
+            for a, b in remove:
+                maps[a][b] = []
+            remove = set()
         else:
             return answer
         
         while True:
-            moved = 0
-            for i in range(m-1):
-                for j in range(n-1):
-                    if board[i][j] and board[i+1][j] == []:
-                        board[i+1][j] = board[i][j]
-                        board[i][j] = []
-                        moved = 1
-            if moved == 0:
+            cnt = 0
+            for i in range(m - 1):
+                for j in range(n):
+                    if maps[i][j] and maps[i+1][j] == []:
+                        maps[i+1][j] = maps[i][j]
+                        maps[i][j] = []
+                        cnt = 1
+            if cnt == 0:
                 break
 
 
-print(solution(4, 5, ["CCBDE", "AAADE", "AAABF", "CCBBF"]))
+# print(solution(4, 5, ["CCBDE", "AAADE", "AAABF", "CCBBF"]))
