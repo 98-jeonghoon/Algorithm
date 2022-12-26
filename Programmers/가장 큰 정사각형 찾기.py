@@ -1,7 +1,21 @@
-dddddddddds
-
-
-
+def solution(board):
+    w, h = len(board[0]), len(board)
+    dp = [[0] * w for _ in range(h)]
+    dp[0] = board[0]
+    for i in range(1, h):
+        dp[i][0] = board[i][0]
+    
+    for i in range(1, h):
+        for j in range(1, w):
+            if board[i][j] == 1:
+                dp[i][j] = min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]) + 1
+    print(dp)
+    answer = 0
+    for i in range(h):
+        tmp = max(dp[i])
+        answer = max(answer, tmp)
+    
+    return answer ** 2
 # def solution(board):
 #     width, height = len(board[0]), len(board)
 #     board_size = min(width, height)
@@ -22,3 +36,4 @@ dddddddddds
 
 # print(solution([[0,1,1,1],[1,1,1,1],[1,1,1,1],[0,0,1,0]]))
 # print(solution([[0,0,1,1],[1,1,1,1]]))
+print(solution([[1,0,1,1],[0,0,0,1],[0,1,0,1],[0,1,0,0]]))
