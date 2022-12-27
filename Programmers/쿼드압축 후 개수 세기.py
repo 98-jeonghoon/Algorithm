@@ -22,3 +22,18 @@ def solution(arr):
     return answer
 
 print(solution([[1,1,0,0],[1,0,0,0],[1,0,0,1],[1,1,1,1]]))
+
+# arr = [[1,1,0,0],[1,0,0,0],[1,0,0,1],[1,1,1,1]]
+
+# # 4등분 하기
+# mid = len(arr) // 2
+
+# arr_1 = [i[:mid] for i in arr[:mid]]
+# arr_2 = [i[:mid] for i in arr[mid:]]
+# arr_3 = [i[mid:] for i in arr[:mid]]
+# arr_4 = [i[mid:] for i in arr[mid:]]
+
+# print(arr_1)
+# print(arr_2)
+# print(arr_3)
+# print(arr_4)
