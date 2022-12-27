@@ -1,3 +1,5 @@
+import sys
+sys.setrecursionlimit(10001)
 def solution(arr):
     answer = [0, 0]
     length = len(arr)
@@ -15,10 +17,8 @@ def solution(arr):
                     quad_tree(x + length, y + length, length)
                     return
         answer[init] += 1
-    
     quad_tree(0, 0, length)
     
     return answer
-
 
 print(solution([[1,1,0,0],[1,0,0,0],[1,0,0,1],[1,1,1,1]]))
