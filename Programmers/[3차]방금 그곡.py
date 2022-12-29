@@ -11,28 +11,43 @@ def play_time(musicinfos):
         play_time_arr.append(abs((int(i[:2]) * 60 + int(i[2:4])) - (int(i[4:6]) * 60 + int(i[6:8]))))
     return play_time_arr
 
+def change(music):
+    if 'A#' in music:
+        music = music.replace('A#', 'a')
+    if 'F#' in music:
+        music = music.replace('F#', 'f')
+    if 'C#' in music:
+        music = music.replace('C#', 'c')
+    if 'G#' in music:
+        music = music.replace('G#', 'g')
+    if 'D#' in music:
+        music = music.replace('D#', 'd')
+    return music
+
 def solution(m, musicinfos):
-    answer = ''
+    import math
+    answer = None
     arr = []
+    m = change(m)
     for i in musicinfos:
-        # new_musicinfos = 0
         arr = i.split(',')
-        play_time = abs((int(arr[0][:2]) * 60 + int(arr[0][3:5])) - (int(arr[1][:2]) * 60 + int(arr[1][3:5])))
-        if m in arr[-1]:
-            return arr[2]
-        if len(arr[-1]) < play_time:
-            new_musicinfos = arr[-1] * (play_time // len(arr[-1]))
-            if m in new_musicinfos:
-                answer += arr[2]
-            else:
-                answer += ''
+        melody = arr[-1]
+        start_time = int(arr[0][:2]) * 60 + int(arr[0][3:5])
+        end_time = int(arr[1][:2]) * 60 + int(arr[1][3:5])
+        play_time = abs(end_time - start_time)
+        melody = change(melody)
+        melody = melody * math.ceil(play_time / len(melody))
+        melody = melody[:play_time]
+        
+        if m not in melody:
+            continue
+        
+        if answer == None or answer[0] < play_time or (answer[0] == play_time and answer[1] > start_time):
+            answer = (play_time, start_time, arr[2])
+    
     if answer:
-        return answer
+        return answer[-1]
     else:
         return "(None)"
-        # if 
-# print(solution("ABC", ["12:00,12:14,HELLO,C#DEFGAB", "13:00,13:05,WORLD,ABCDEF"]))
-print(solution("ABC", ["12:00,12:06,HELLO,ABC#ABC#ABC"]))
-# a` = 'abcd'
-# b = 'zxabcdxz'
-# print(a * 2)`
+print(solution("ABC", ["12:00,12:14,HELLO,C#DEFGAB", "13:00,13:05,WORLD,ABCDEF"]))
+# print(solution("ABC", ["12:00,12:06,HELLO,ABC#ABC#ABC"]))
