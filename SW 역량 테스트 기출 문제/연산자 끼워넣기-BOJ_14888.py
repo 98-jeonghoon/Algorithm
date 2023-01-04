@@ -95,7 +95,7 @@
 #     print(min_num)
     
 # solution(max_num, min_num)
-=======
+
 N = int(input())
 num = list(map(int, input().split()))
 add, sub, mul, div = map(int, input().split())
@@ -122,4 +122,4 @@ def calc(depth, total, add, sub, mul, div):
 calc(1, total, add, sub, mul, div)
 print(max_num)
 print(min_num)
->>>>>>> 8476e1585a5a6270e9b729b21f16c9013bad5394
+
