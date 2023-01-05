@@ -13,13 +13,22 @@ def solve(depth, idx):
                     start += (graph[i][j] + graph[j][i]) #방문한 사람을 스타트팀에 더해준다.
                 elif not visited[i] and not visited[j]: # 방문 안한 i j 는 링크팀이므로
                     link += (graph[i][j] + graph[j][i])  #방문안한 사람을 링크팀에 더해준다
-        answer = min(answer, abs(start - link)) #최솟값을 결과값에 대입
+        answer = min(answer, abs(start - link)) #[최솟값을 결과값에 대입
         return
+<<<<<<< HEAD:SW 역량 테스트 기출 문제/BOJ_14889.PY
     for i in range(idx, N):
         if not visited[i]: #만약 방문을 안했다면
             visited[i] = True #방문으로 처리
             solve(depth + 1, i + 1) #재귀를 돈다 
             visited[i] = False #방문 완료 처리
+=======
+    for i in range(idx, N): 
+        if visited[i]: #만약 방문을 했다면
+            continue
+        visited[i] = True #방문으로 처리
+        solve(depth + 1, i + 1) #재귀를 돈다 
+        visited[i] = False #방문 완료 처리
+>>>>>>> 015f9fdfcb8ae1f976254acc5b9e549c25a66264:SW 역량 테스트 기출 문제/스타트와 링크-BOJ_14889.PY
 
 
 solve(0, 0)
