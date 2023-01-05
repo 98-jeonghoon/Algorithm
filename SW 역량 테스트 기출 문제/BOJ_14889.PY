@@ -15,7 +15,7 @@ def solve(depth, idx):
                     link += (graph[i][j] + graph[j][i])  #방문안한 사람을 링크팀에 더해준다
         answer = min(answer, abs(start - link)) #최솟값을 결과값에 대입
         return
-    for i in range(idx, N): 
+    for i in range(idx, N):
         if not visited[i]: #만약 방문을 안했다면
             visited[i] = True #방문으로 처리
             solve(depth + 1, i + 1) #재귀를 돈다 
