@@ -136,7 +136,109 @@
 #     print(count)
 
 ## 적록색약 백준 10026
+# import sys
+# sys.setrecursionlimit(10000)
 
-n = int(input())
-graph = [list(input()) for _ in range(n)]
+# n = int(input())
+# graph = [list(input()) for _ in range(n)]
 
+# dx = [-1, 1, 0, 0]
+# dy = [0, 0, -1, 1]
+
+# visited = [[False] * n for _ in range(n)]
+# def dfs(x, y):
+#     visited[x][y] = True
+#     current_color = graph[x][y]
+#     for i in range(4):
+#         nx = x + dx[i]
+#         ny = y + dy[i]
+#         if 0<= nx < n and 0 <= ny < n:
+#             if visited[nx][ny] == False and graph[nx][ny] == current_color:
+#                 dfs(nx, ny)
+                
+# count = 0   
+# for i in range(n):
+#     for j in range(n):
+#         if visited[i][j] == False:
+#             dfs(i, j)
+#             count += 1
+
+# for i in range(n):
+#     for j in range(n):
+#         if graph[i][j] == 'R':
+#             graph[i][j] = 'G'
+
+# visited = [[False] * n for _ in range(n)]
+
+# RG_count = 0
+# for i in range(n):
+#     for j in range(n):
+#         if visited[i][j] == False:
+#             dfs(i, j)
+#             RG_count += 1
+            
+# print(count, RG_count)
+
+## 안전영역 백준 2468번
+# import sys
+# sys.setrecursionlimit(100000)
+# n = int(input())
+# graph = [list(map(int, input().split())) for _ in range(n)]
+
+# max_num = -1e9
+# for i in range(n):
+#     for j in range(n):
+#         max_num = max(max_num, graph[i][j])
+
+# dx = [-1, 1, 0, 0]
+# dy = [0, 0, -1, 1]
+# def dfs(x, y, rain):
+#     visited[x][y] = True
+#     for i in range(4):
+#         nx = x + dx[i]
+#         ny = y + dy[i]
+#         if 0<= nx < n and 0<= ny < n:
+#             if graph[nx][ny] > rain and visited[nx][ny] == False:
+#                 dfs(nx, ny, rain)
+          
+
+# answer = 1
+                
+# for i in range(max_num):
+#     visited = [[False] * n for _ in range(n)]
+#     count = 0
+#     for j in range(n):
+#         for k in range(n):
+#             if graph[j][k] > i and visited[j][k] == False:
+#                 dfs(j, k, i)
+#                 count += 1
+#     answer = max(count, answer)
+        
+# print(answer)
+
+# 알파벳 백준 1987
+
+r, c = map(int, input().split())
+graph = [list(map(lambda a : ord(a)-65,input())) for _ in range(r)]
+
+visited = [0] * 26
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+max_num = 1
+def dfs(x, y, count):
+    global max_num
+    if max_num < count:
+        max_num = count
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+        if 0 <= nx < r and 0 <= ny < c:
+            if visited[graph[nx][ny]] == 0:
+                visited[graph[nx][ny]] = 1
+                dfs(nx, ny, count+1)
+                visited[graph[nx][ny]] = 0
+                
+visited[graph[0][0]] = 1
+dfs(0,0, max_num)
+print(max_num)
