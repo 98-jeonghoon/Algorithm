@@ -1,98 +1,142 @@
-# # 아기상어
+# 삼성 SW 코테 문제에 벽을 느끼고 푸는 문제들
+
+## 백준 1260 DFS와 BFS
+
+# n, m, v = map(int, input().split())
+# graph = [[] * m for _ in range(n+1)]
+
+# for _ in range(m):
+#     a, b = map(int, input().split())
+#     graph[a].append(b)
+#     graph[b].append(a)
+
+# for i in range(n+1):
+#     graph[i].sort()
+
+
+# visited = [False] * (n+1)
+
+# def dfs(graph, v, visited):
+#     visited[v] = True
+#     print(v, end=' ')
+#     for i in graph[v]:
+#         if not visited[i]:
+#             dfs(graph, i, visited)
+
+# dfs(graph, v, visited)
+
+
+# visited = [False] * (n+1)
 # from collections import deque
+
+# def bfs(graph, v, visited):
+#     queue = deque([v])
+#     visited[v] = True
+#     while queue:
+#         now = queue.popleft()
+#         print(now, end=' ')
+#         for i in graph[now]:
+#             if not visited[i]:
+#                 queue.append(i)
+#                 visited[i] = True
+
+# print()         
+# bfs(graph, v, visited)
+
+## 바이러스 백준 2606번
 # n = int(input())
-# graph = []
+# m = int(input())
+# graph = [[] * m for _ in range(n+1)]
+# for i in range(m):
+#     a, b = map(int, input().split())
+#     graph[a].append(b)
+#     graph[b].append(a)
+    
 # for i in range(n):
-#     graph.append(list(map(int, input().split())))
+#     graph[i].sort()
+# visited = [False] * (n+1)
 
-# now_x, now_y = 0, 0
-# now_size = 2
-# INF = 1e9
+# count = 0
+# def dfs(graph, v, visited):
+#     global count
+#     visited[v] = True
+#     for i in graph[v]:
+#         if not visited[i]:
+#             count += 1
+#             dfs(graph, i, visited)
 
-# for i in range(n):
-#     for j in range(n):
-#         if graph[i][j] == 9:
-#             graph[i][j] = 0
-#             now_x, now_y = i, j
+# dfs(graph, 1, visited)
+# print(count)
+
+## 단지번호붙이기 백준 2667번
+
+# n = int(input())
+# graph = [list(map(int, input())) for _ in range(n)]
 
 # dx = [-1, 1, 0, 0]
 # dy = [0, 0, -1, 1]
 
-# def bfs():
-#     dist = [[-1] * n for _ in range(n)]
-#     queue = deque()
-#     dist[now_x][now_y] = 0
-#     queue.append((now_x, now_y))
-#     while queue:
-#         x, y = queue.popleft()
+# count = 0
+# def dfs(x,y):
+#     global count
+#     if x < 0 or y < 0 or x >= n or y >= n:
+#         return
+#     if graph[x][y] == 0:
+#         return
+#     if graph[x][y] == 1:
+#         graph[x][y] = 0
+#         count += 1
 #         for i in range(4):
 #             nx = x + dx[i]
 #             ny = y + dy[i]
-#             if 0 <= nx < n and 0 <= ny < n:
-#                 if dist[nx][ny] == -1 and graph[nx][ny] <= now_size:
-#                     dist[nx][ny] = dist[x][y] + 1
-#                     queue.append((nx, ny))
-#     return dist
+#             dfs(nx, ny)
+#     return count
 
-# def find(dist):
-#     x, y = 0, 0
-#     min_dist = INF
+# arr = []
+# for i in range(n):
+#     for j in range(n):
+#         if graph[i][j] == 1:
+#             arr.append(dfs(i,j))
+#             count = 0
+
+# arr.sort()
+# print(len(arr))
+# for i in arr:
+#     print(i)
+
+## 유기농 배추 백준 1012
+# dx = [-1, 1, 0, 0]
+# dy = [0, 0, -1, 1]
+# def dfs(x, y):
+#     global count
+#     if x < 0 or y < 0 or x >= n or y >= m:
+#         return
+#     if graph[x][y] == 0:
+#         return
+#     if graph[x][y] == 1:
+#         count += 1
+#         graph[x][y] = 0
+#         for i in range(4):
+#             nx = x + dx[i]
+#             ny = y + dy[i]
+#             dfs(nx, ny)
+
+# t = int(input())
+# for _ in range(t):
+#     m, n, k = map(int, input().split())
+#     graph = [[0] * m for _ in range(n)]
+#     for i in range(k):
+#         a, b = map(int, input().split())
+#         graph[b][a] = 1
+#     count = 0
 #     for i in range(n):
-#         for j in range(n):
-#             if dist[i][j] != -1 and graph[i][j] >= 1 and graph[i][j] < now_size:
-#                 if dist[i][j] < min_dist:
-#                     min_dist = dist[i][j]
-#                     x, y = i, j
-#     if min_dist == INF:
-#         return None
-#     else:
-#         return x, y, min_dist
+#         for j in range(m):
+#             if graph[i][j] == 1:
+#                 dfs(i, j)
+#     print(count)
 
-# result = 0
-# ate = 0
+## 적록색약 백준 10026
 
-# while True:
-#     value = find(bfs())
-#     if value == None:
-#         print(result)
-#         exit(0)
-#     else:
-#         now_x, now_y = value[0], value[1]
-#         result += value[-1]
-#         graph[now_x][now_y] = 0
-#         ate += 1
-#         if ate >= now_size:
-#             now_size += 1
-#             ate = 0
+n = int(input())
+graph = [list(input()) for _ in range(n)]
 
-# n = int(input())
-# arr = [list(map(int, input().split())) for _ in range(n)]
-
-# dp = [0 for _ in range(n+1)]
-
-# for i in range(n-1, -1, -1):
-#     if i + arr[i][0] > n:
-#         dp[i] = dp[i+1]
-#     else:
-#         dp[i] = max(dp[i+1], arr[i][1] + dp[i + arr[i][0]])
-
-# print(dp[0])
-
-
-n, m = map(int, input().split())
-visited = [False] * (n+1)
-arr = []
-def backtracking():
-    if len(arr) == m:
-        print(' '.join(map(str, arr)))
-        return
-    for i in range(1, n+1):
-        if visited[i]:
-            continue
-        visited[i] = True
-        arr.append(i)
-        backtracking()
-        visited[i] = False
-        arr.pop()
-
-backtracking()
