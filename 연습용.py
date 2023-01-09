@@ -218,27 +218,240 @@
 
 # 알파벳 백준 1987
 
-r, c = map(int, input().split())
-graph = [list(map(lambda a : ord(a)-65,input())) for _ in range(r)]
+# r, c = map(int, input().split())
+# graph = [list(map(lambda a : ord(a)-65,input())) for _ in range(r)]
 
-visited = [0] * 26
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
+# visited = [0] * 26
+# dx = [-1, 1, 0, 0]
+# dy = [0, 0, -1, 1]
 
-max_num = 1
-def dfs(x, y, count):
-    global max_num
-    if max_num < count:
-        max_num = count
-    for i in range(4):
-        nx = x + dx[i]
-        ny = y + dy[i]
-        if 0 <= nx < r and 0 <= ny < c:
-            if visited[graph[nx][ny]] == 0:
-                visited[graph[nx][ny]] = 1
-                dfs(nx, ny, count+1)
-                visited[graph[nx][ny]] = 0
+# max_num = 1
+# def dfs(x, y, count):
+#     global max_num
+#     if max_num < count:
+#         max_num = count
+#     for i in range(4):
+#         nx = x + dx[i]
+#         ny = y + dy[i]
+#         if 0 <= nx < r and 0 <= ny < c:
+#             if visited[graph[nx][ny]] == 0:
+#                 visited[graph[nx][ny]] = 1
+#                 dfs(nx, ny, count+1)
+#                 visited[graph[nx][ny]] = 0
                 
-visited[graph[0][0]] = 1
-dfs(0,0, max_num)
-print(max_num)
+# visited[graph[0][0]] = 1
+# dfs(0,0, max_num)
+# print(max_num)
+
+# def backtracing(start):
+#     if len(arr) == 6:
+#         print(*arr)
+#         return
+#     for i in range(start, len(num)):
+#         if visited[i]:
+#             continue
+#         arr.append(num[i])
+#         visited[i] = True
+#         backtracing(i+1)
+#         arr.pop()
+#         visited[i] = False
+# while True:
+#     num = list(map(int,input().split()))
+#     if num[0] == 0:
+#         break
+#     k = num.pop(0)
+#     visited = [False] * len(num)
+#     arr = []
+#     backtracing(0)
+#     print()
+
+## 감시 백준 15683
+# import copy
+# n, m = map(int, input().split())
+# cctv = []
+# graph = []
+# mode = [
+#     [],
+#     [[0], [1], [2], [3]],
+#     [[0, 2], [1, 3]],
+#     [[0, 1], [1, 2], [2, 3], [0, 3]],
+#     [[0, 1, 2], [0, 1, 3], [1, 2, 3], [0, 2, 3]],
+#     [[0, 1, 2, 3]],
+# ]
+
+# # 북 - 동 - 남 - 서
+# dx = [-1, 0, 1, 0]
+# dy = [0, 1, 0, -1]
+
+# for i in range(n):
+#     data = list(map(int, input().split()))
+#     graph.append(data)
+#     for j in range(m):
+#         if data[j] in [1, 2, 3, 4, 5]:
+#             cctv.append([data[j], i, j])
+
+# def fill(board, mm, x, y):
+#     for i in mm:
+#         nx = x
+#         ny = y
+#         while True:
+#             nx += dx[i]
+#             ny += dy[i]
+#             if nx < 0 or ny < 0 or nx >= n or ny >= m:
+#                 break
+#             if board[nx][ny] == 6:
+#                 break
+#             elif board[nx][ny] == 0:
+#                 board[nx][ny] = 7
+
+# def dfs(depth, arr):
+#     global min_value
+
+#     if depth == len(cctv):
+#         count = 0
+#         for i in range(n):
+#             count += arr[i].count(0)
+#         min_value = min(min_value, count)
+#         return
+#     temp = copy.deepcopy(arr)
+#     cctv_num, x, y = cctv[depth]
+#     for i in mode[cctv_num]:
+#         fill(temp, i, x, y)
+#         dfs(depth+1, temp)
+#         temp = copy.deepcopy(arr)
+
+
+# min_value = int(1e9)
+# dfs(0, graph)
+# print(min_value)
+
+# from itertools import product
+# def solution(n, x, y):
+#     arr = []
+#     arr.append(int(x))
+#     arr.append(int(y))
+#     data = []
+#     for i in range(1, len(n)+1):
+#         for j in product(arr, repeat=i):
+#             data.append(''.join(map(str, j)))
+#     answer = []
+#     for i in data:
+#         if int(i) < int(n):
+#             answer.append(int(i))
+#     return answer
+
+# t = int(input())
+# for i in range(t):
+#     n, x, y = map(str, input().split())
+#     answer = solution(n, x, y)
+#     if len(answer) == 0 or max(answer) == 0:
+#         print('#{} -1'.format(i+1))
+#     else:
+#         print('#{} {}'.format(i+1, max(answer)))
+
+
+# n, m = map(int, input().split())
+# graph = [list(map(int, input().split())) for _ in range(n)]
+# visited = [[False] * m for _ in range(n)]
+
+# dx = [-1, 1, 0, 0]
+# dy = [0, 0, -1, 1]
+# max_value = -1e9
+# def dfs(x, y, cnt, value):
+#     global max_value
+#     if cnt == 4:
+#         max_value = max(max_value, value)
+#         return
+    
+#     for i in range(4):
+#         nx = x + dx[i]
+#         ny = y + dy[i]
+#         if 0 <= nx < n and 0 <= ny < m and visited[nx][ny] == False:
+#             visited[nx][ny] = True
+#             dfs(nx, ny, cnt + 1, value + graph[nx][ny])
+#             visited[nx][ny] = False
+
+# def pink(x, y):
+#     global max_value
+#     for i in range(4):
+#         tmp = graph[x][y]
+#         for j in range(3):
+#             direction = (i + j) % 4
+#             nx = x + dx[direction]
+#             ny = y + dy[direction]
+#             if not (0 <= nx < n and 0 <= ny < m):
+#                 tmp = 0
+#                 break
+#             tmp += graph[nx][ny]
+#         max_value = max(tmp, max_value)
+
+# for i in range(n):
+#     for j in range(m):
+#         if visited[i][j]:
+#             continue
+#         visited[i][j] = True
+#         dfs(i, j, 1, graph[i][j])
+#         visited[i][j] = False
+#         pink(i, j)
+        
+# print(max_value)
+import copy
+n, m = map(int, input().split())
+graph = [list(map(int, input().split())) for _ in range(n)]
+
+# 북 동 남 서
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+
+cctv_range = [
+    [],
+    [[0],[1],[2],[3]], #1번 카메라
+    [[0,2],[1,3]], #2번 카메라
+    [[0,1],[1,2],[2,3],[3,0]], #3번 카메라
+    [[0,1,3],[0,1,2],[1,2,3],[0,2,3]], # 4번 카메라
+    [[0,1,2,3]], # 5번 카메라
+]
+
+cctv = []
+for i in range(n):
+    for j in range(m):
+        if graph[i][j] in [1,2,3,4,5]:
+            cctv.append([graph[i][j], i, j])
+
+min_value = 1e9
+
+def watch(graph, cctv_num, x, y):
+    for i in cctv_num:
+        nx = x
+        ny = y
+        while True:
+            nx += dx[i]
+            ny += dy[i]
+            if nx < 0 or ny < 0 or nx >= n or ny >= m:
+                break
+            if graph[nx][ny] == 6:
+                break
+            elif graph[nx][ny] == 0:
+                graph[nx][ny] = '#'
+            
+def dfs(depth, arr):
+    global min_value
+    if len(cctv) == depth:
+        count = 0
+        for i in range(n):
+            count += arr[i].count(0)
+        min_value = min(count, min_value)
+        return
+    
+    tmp = copy.deepcopy(arr)
+    cctv_num, x, y = cctv[depth]
+    for i in cctv_range[cctv_num]:
+        watch(tmp, i, x, y)
+        dfs(depth+1, tmp)
+        tmp = copy.deepcopy(arr)
+        
+dfs(0, graph)
+print(min_value)
+            
+                
+    
