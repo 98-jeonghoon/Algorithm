@@ -395,63 +395,110 @@
 #         pink(i, j)
         
 # print(max_value)
-import copy
-n, m = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(n)]
+# import copy
+# n, m = map(int, input().split())
+# graph = [list(map(int, input().split())) for _ in range(n)]
 
-# 북 동 남 서
-dx = [-1, 0, 1, 0]
-dy = [0, 1, 0, -1]
+# # 북 동 남 서
+# dx = [-1, 0, 1, 0]
+# dy = [0, 1, 0, -1]
 
-cctv_range = [
-    [],
-    [[0],[1],[2],[3]], #1번 카메라
-    [[0,2],[1,3]], #2번 카메라
-    [[0,1],[1,2],[2,3],[3,0]], #3번 카메라
-    [[0,1,3],[0,1,2],[1,2,3],[0,2,3]], # 4번 카메라
-    [[0,1,2,3]], # 5번 카메라
-]
+# cctv_range = [
+#     [],
+#     [[0],[1],[2],[3]], #1번 카메라
+#     [[0,2],[1,3]], #2번 카메라
+#     [[0,1],[1,2],[2,3],[3,0]], #3번 카메라
+#     [[0,1,3],[0,1,2],[1,2,3],[0,2,3]], # 4번 카메라
+#     [[0,1,2,3]], # 5번 카메라
+# ]
 
-cctv = []
-for i in range(n):
-    for j in range(m):
-        if graph[i][j] in [1,2,3,4,5]:
-            cctv.append([graph[i][j], i, j])
+# cctv = []
+# for i in range(n):
+#     for j in range(m):
+#         if graph[i][j] in [1,2,3,4,5]:
+#             cctv.append([graph[i][j], i, j])
 
-min_value = 1e9
+# min_value = 1e9
 
-def watch(graph, cctv_num, x, y):
-    for i in cctv_num:
-        nx = x
-        ny = y
-        while True:
-            nx += dx[i]
-            ny += dy[i]
-            if nx < 0 or ny < 0 or nx >= n or ny >= m:
-                break
-            if graph[nx][ny] == 6:
-                break
-            elif graph[nx][ny] == 0:
-                graph[nx][ny] = '#'
+# def watch(graph, cctv_num, x, y):
+#     for i in cctv_num:
+#         nx = x
+#         ny = y
+#         while True:
+#             nx += dx[i]
+#             ny += dy[i]
+#             if nx < 0 or ny < 0 or nx >= n or ny >= m:
+#                 break
+#             if graph[nx][ny] == 6:
+#                 break
+#             elif graph[nx][ny] == 0:
+#                 graph[nx][ny] = '#'
             
-def dfs(depth, arr):
-    global min_value
-    if len(cctv) == depth:
-        count = 0
-        for i in range(n):
-            count += arr[i].count(0)
-        min_value = min(count, min_value)
-        return
+# def dfs(depth, arr):
+#     global min_value
+#     if len(cctv) == depth:
+#         count = 0
+#         for i in range(n):
+#             count += arr[i].count(0)
+#         min_value = min(count, min_value)
+#         return
     
-    tmp = copy.deepcopy(arr)
-    cctv_num, x, y = cctv[depth]
-    for i in cctv_range[cctv_num]:
-        watch(tmp, i, x, y)
-        dfs(depth+1, tmp)
-        tmp = copy.deepcopy(arr)
+#     tmp = copy.deepcopy(arr)
+#     cctv_num, x, y = cctv[depth]
+#     for i in cctv_range[cctv_num]:
+#         watch(tmp, i, x, y)
+#         dfs(depth+1, tmp)
+#         tmp = copy.deepcopy(arr)
         
-dfs(0, graph)
-print(min_value)
-            
-                
-    
+# dfs(0, graph)
+# print(min_value)
+
+## 뱀 백준 3190
+
+n = int(input())
+graph = [[0] * n for _ in range(n)]
+k = int(input())
+for _ in range(k):
+    a, b = map(int, input().split())
+    graph[a-1][b-1] = 1
+
+dic = dict()
+l = int(input())
+for _ in range(l):
+    sec, dir = input().split()
+    dic[int(sec)] = dir
+
+from collections import deque
+
+dy = [-1, 0, 1, 0]
+dx = [0, 1, 0, -1]
+
+def turn(direction, L_D_string):
+    if L_D_string == 'L':
+        direction = (direction - 1) % 4
+    else:
+        direction = (direction + 1) % 4
+    return direction
+
+def start():
+    direction = 1
+    nx, ny = 0, 0
+    queue = deque([[ny, nx]])
+    graph[ny][nx] = 2
+    time = 1
+    while True:
+        nx = nx + dx[direction]
+        ny = ny + dy[direction]
+        if 0 <= ny < n and 0 <= nx < n and graph[ny][nx] != 2:
+            if not graph[ny][nx] == 1:
+                tmp_y, tmp_x = queue.popleft()
+                graph[tmp_y][tmp_x] = 0
+            graph[ny][nx] = 2
+            queue.append([ny, nx])
+            if time in dic.keys():
+                direction = turn(direction, dic[time])
+            time += 1
+        else:
+            return print(time)
+
+start()
