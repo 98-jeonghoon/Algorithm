@@ -455,50 +455,92 @@
 
 ## 뱀 백준 3190
 
-n = int(input())
-graph = [[0] * n for _ in range(n)]
-k = int(input())
-for _ in range(k):
-    a, b = map(int, input().split())
-    graph[a-1][b-1] = 1
+# n = int(input())
+# graph = [[0] * n for _ in range(n)]
+# k = int(input())
+# for _ in range(k):
+#     a, b = map(int, input().split())
+#     graph[a-1][b-1] = 1
 
-dic = dict()
-l = int(input())
-for _ in range(l):
-    sec, dir = input().split()
-    dic[int(sec)] = dir
+# dic = dict()
+# l = int(input())
+# for _ in range(l):
+#     sec, dir = input().split()
+#     dic[int(sec)] = dir
 
-from collections import deque
+# from collections import deque
 
-dy = [-1, 0, 1, 0]
-dx = [0, 1, 0, -1]
+# dy = [-1, 0, 1, 0]
+# dx = [0, 1, 0, -1]
 
-def turn(direction, L_D_string):
-    if L_D_string == 'L':
-        direction = (direction - 1) % 4
-    else:
-        direction = (direction + 1) % 4
-    return direction
+# def turn(direction, L_D_string):
+#     if L_D_string == 'L':
+#         direction = (direction - 1) % 4
+#     else:
+#         direction = (direction + 1) % 4
+#     return direction
 
-def start():
-    direction = 1
-    nx, ny = 0, 0
-    queue = deque([[ny, nx]])
-    graph[ny][nx] = 2
-    time = 1
-    while True:
-        nx = nx + dx[direction]
-        ny = ny + dy[direction]
-        if 0 <= ny < n and 0 <= nx < n and graph[ny][nx] != 2:
-            if not graph[ny][nx] == 1:
-                tmp_y, tmp_x = queue.popleft()
-                graph[tmp_y][tmp_x] = 0
-            graph[ny][nx] = 2
-            queue.append([ny, nx])
-            if time in dic.keys():
-                direction = turn(direction, dic[time])
-            time += 1
-        else:
-            return print(time)
+# def start():
+#     direction = 1
+#     nx, ny = 0, 0
+#     queue = deque([[ny, nx]])
+#     graph[ny][nx] = 2
+#     time = 1
+#     while True:
+#         nx = nx + dx[direction]
+#         ny = ny + dy[direction]
+#         if 0 <= ny < n and 0 <= nx < n and graph[ny][nx] != 2:
+#             if not graph[ny][nx] == 1:
+#                 tmp_y, tmp_x = queue.popleft()
+#                 graph[tmp_y][tmp_x] = 0
+#             graph[ny][nx] = 2
+#             queue.append([ny, nx])
+#             if time in dic.keys():
+#                 direction = turn(direction, dic[time])
+#             time += 1
+#         else:
+#             return print(time)
 
-start()
+# start()
+
+
+## 경사로 백준 14890
+
+n, l = map(int, input().split())
+graph = [list(map(int, input().split())) for _ in range(n)]
+
+
+answer = 0
+
+def pos(now):
+    for j in range(1, n):
+        if 1 < abs(now[j] - now[j-1]):
+            return False
+        if now[j] < now[j-1]:
+            for k in range(l):
+                if j + k >= n or visited[j+k] or now[j] != now[j+k]:
+                    return False
+                if now[j] == now[j+k]:
+                    visited[j+k] = True
+        elif now[j] > now[j-1]:
+            for k in range(l):
+                if j - k - 1 < 0 or visited[j-k-1] or now[j-1] != now[j-k-1]:
+                    return False
+                if now[j-1] == now[j-k-1]:
+                    visited[j -k -1] = True
+    return True
+
+            
+            
+    
+for i in range(n):
+    visited = [False] * (n+1)
+    if pos(graph[i]):
+        answer += 1
+        
+for i in range(n):
+    visited = [False] * (n+1)
+    if pos([graph[j][i] for j in range(n)]):
+        answer += 1
+
+print(answer-1)
