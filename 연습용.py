@@ -506,41 +506,96 @@
 
 ## 경사로 백준 14890
 
-n, l = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(n)]
+# n, l = map(int, input().split())
+# graph = [list(map(int, input().split())) for _ in range(n)]
 
 
-answer = 0
+# answer = 0
 
-def pos(now):
-    for j in range(1, n):
-        if 1 < abs(now[j] - now[j-1]):
-            return False
-        if now[j] < now[j-1]:
-            for k in range(l):
-                if j + k >= n or visited[j+k] or now[j] != now[j+k]:
-                    return False
-                if now[j] == now[j+k]:
-                    visited[j+k] = True
-        elif now[j] > now[j-1]:
-            for k in range(l):
-                if j - k - 1 < 0 or visited[j-k-1] or now[j-1] != now[j-k-1]:
-                    return False
-                if now[j-1] == now[j-k-1]:
-                    visited[j -k -1] = True
-    return True
+# def pos(now):
+#     for j in range(1, n):
+#         if 1 < abs(now[j] - now[j-1]):
+#             return False
+#         if now[j] < now[j-1]:
+#             for k in range(l):
+#                 if j + k >= n or visited[j+k] or now[j] != now[j+k]:
+#                     return False
+#                 if now[j] == now[j+k]:
+#                     visited[j+k] = True
+#         elif now[j] > now[j-1]:
+#             for k in range(l):
+#                 if j - k - 1 < 0 or visited[j-k-1] or now[j-1] != now[j-k-1]:
+#                     return False
+#                 if now[j-1] == now[j-k-1]:
+#                     visited[j -k -1] = True
+#     return True
 
             
             
     
-for i in range(n):
-    visited = [False] * (n+1)
-    if pos(graph[i]):
-        answer += 1
+# for i in range(n):
+#     visited = [False] * (n+1)
+#     if pos(graph[i]):
+#         answer += 1
         
-for i in range(n):
-    visited = [False] * (n+1)
-    if pos([graph[j][i] for j in range(n)]):
-        answer += 1
+# for i in range(n):
+#     visited = [False] * (n+1)
+#     if pos([graph[j][i] for j in range(n)]):
+#         answer += 1
 
-print(answer-1)
+# print(answer-1)
+
+## 나무 재테크 백준 16235
+
+n, m, k = map(int, input().split())
+add_graph = [list(map(int, input().split())) for _ in range(n)]
+food_graph = [[5] * n for _ in range(n)]
+tree = [[[] for _ in range(n)] for _ in range(n)]
+for _ in range(m):
+    x, y, age = map(int, input().split())
+    tree[x-1][y-1].append(age)
+
+
+dx = [-1, -1, -1, 0, 0, 1, 1, 1]
+dy = [-1, 0, 1, -1, 1, -1, 0, 1]
+
+for _ in range(k):
+    for i in range(n):
+        for j in range(n):
+            if tree[i][j]:
+                tree[i][j].sort()
+                tmp_tree = []
+                death_tree = 0
+                for age in tree[i][j]:
+                    if food_graph[i][j] >= age:
+                        food_graph[i][j] -= age
+                        age += 1
+                        tmp_tree.append(age)
+                    else:
+                        death_tree += (age // 2)
+                food_graph[i][j] += death_tree
+                tree[i][j].clear()
+                tree[i][j].extend(tmp_tree)
+
+    for i in range(n):
+        for j in range(n):
+            if tree[i][j]:
+                for age in tree[i][j]:
+                    if age % 5 == 0:
+                        for dir in range(8):
+                            nx = i + dx[dir]
+                            ny = j + dy[dir]
+                            if nx < 0 or nx >= n or ny < 0 or ny >= n:
+                                continue
+                            tree[nx][ny].append(1)
+
+    for i in range(n):
+        for j in range(n):
+            food_graph[i][j] += add_graph[i][j]
+
+answer = 0
+for i in range(n):
+    for j in range(n):
+        answer += len(tree[i][j])
+
+print(answer)
