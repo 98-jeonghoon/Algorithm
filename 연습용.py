@@ -547,55 +547,78 @@
 
 ## 나무 재테크 백준 16235
 
-n, m, k = map(int, input().split())
-add_graph = [list(map(int, input().split())) for _ in range(n)]
-food_graph = [[5] * n for _ in range(n)]
-tree = [[[] for _ in range(n)] for _ in range(n)]
-for _ in range(m):
-    x, y, age = map(int, input().split())
-    tree[x-1][y-1].append(age)
+# n, m, k = map(int, input().split())
+# add_graph = [list(map(int, input().split())) for _ in range(n)]
+# food_graph = [[5] * n for _ in range(n)]
+# tree = [[[] for _ in range(n)] for _ in range(n)]
+# for _ in range(m):
+#     x, y, age = map(int, input().split())
+#     tree[x-1][y-1].append(age)
 
 
-dx = [-1, -1, -1, 0, 0, 1, 1, 1]
-dy = [-1, 0, 1, -1, 1, -1, 0, 1]
+# dx = [-1, -1, -1, 0, 0, 1, 1, 1]
+# dy = [-1, 0, 1, -1, 1, -1, 0, 1]
 
-for _ in range(k):
-    for i in range(n):
-        for j in range(n):
-            if tree[i][j]:
-                tree[i][j].sort()
-                tmp_tree = []
-                death_tree = 0
-                for age in tree[i][j]:
-                    if food_graph[i][j] >= age:
-                        food_graph[i][j] -= age
-                        age += 1
-                        tmp_tree.append(age)
-                    else:
-                        death_tree += (age // 2)
-                food_graph[i][j] += death_tree
-                tree[i][j].clear()
-                tree[i][j].extend(tmp_tree)
+# for _ in range(k):
+#     for i in range(n):
+#         for j in range(n):
+#             if tree[i][j]:
+#                 tree[i][j].sort()
+#                 tmp_tree = []
+#                 death_tree = 0
+#                 for age in tree[i][j]:
+#                     if food_graph[i][j] >= age:
+#                         food_graph[i][j] -= age
+#                         age += 1
+#                         tmp_tree.append(age)
+#                     else:
+#                         death_tree += (age // 2)
+#                 food_graph[i][j] += death_tree
+#                 tree[i][j].clear()
+#                 tree[i][j].extend(tmp_tree)
 
-    for i in range(n):
-        for j in range(n):
-            if tree[i][j]:
-                for age in tree[i][j]:
-                    if age % 5 == 0:
-                        for dir in range(8):
-                            nx = i + dx[dir]
-                            ny = j + dy[dir]
-                            if nx < 0 or nx >= n or ny < 0 or ny >= n:
-                                continue
-                            tree[nx][ny].append(1)
+#     for i in range(n):
+#         for j in range(n):
+#             if tree[i][j]:
+#                 for age in tree[i][j]:
+#                     if age % 5 == 0:
+#                         for dir in range(8):
+#                             nx = i + dx[dir]
+#                             ny = j + dy[dir]
+#                             if nx < 0 or nx >= n or ny < 0 or ny >= n:
+#                                 continue
+#                             tree[nx][ny].append(1)
 
-    for i in range(n):
-        for j in range(n):
-            food_graph[i][j] += add_graph[i][j]
+#     for i in range(n):
+#         for j in range(n):
+#             food_graph[i][j] += add_graph[i][j]
 
-answer = 0
-for i in range(n):
-    for j in range(n):
-        answer += len(tree[i][j])
+# answer = 0
+# for i in range(n):
+#     for j in range(n):
+#         answer += len(tree[i][j])
 
-print(answer)
+# print(answer)
+
+
+## 바이러스 백준 2606
+
+# n = int(input())
+# m = int(input())
+# graph = [[] * m for _ in range(n + 1)]
+# for i in range(m):
+#     a, b = map(int, input().split())
+#     graph[a].append(b)
+#     graph[b].append(a)
+
+# visited = [False] * (n + 1)
+
+# for i in range(n + 1):
+#     graph[i].sort()
+
+# def dfs(graph, v, visited):
+#     visited[v] = True
+#     for i in graph[v]:
+#         if not visited[i]:
+#             dfs(graph, i, visited)
+    
