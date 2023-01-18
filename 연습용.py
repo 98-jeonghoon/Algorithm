@@ -640,19 +640,19 @@
 
 ## 프로그래머스 lv3 네트워크
 
-def solution(n, computers):
-    answer = 0
-    visited = [False for _ in range(n)]
-    for i in range(n):
-        if visited[i] == False:
-            dfs(n, computers, visited, i)
-            answer += 1
-    return answer
-def dfs(n, computers, visited, start):
-    visited[start] = True
-    for i in range(n):
-        if i != start and computers[start][i] == 1:
-            if not visited[i]:
-                dfs(n, computers, visited, i)
+# def solution(n, computers):
+#     answer = 0
+#     visited = [False for _ in range(n)]
+#     for i in range(n):
+#         if visited[i] == False:
+#             dfs(n, computers, visited, i)
+#             answer += 1
+#     return answer
+# def dfs(n, computers, visited, start):
+#     visited[start] = True
+#     for i in range(n):
+#         if i != start and computers[start][i] == 1:
+#             if not visited[i]:
+#                 dfs(n, computers, visited, i)
 
-print(solution(3, [[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
+# print(solution(3, [[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
