@@ -506,41 +506,91 @@
 
 ## 경사로 백준 14890
 
-n, l = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(n)]
+# n, l = map(int, input().split())
+# graph = [list(map(int, input().split())) for _ in range(n)]
 
 
-answer = 0
+# answer = 0
 
-def pos(now):
-    for j in range(1, n):
-        if 1 < abs(now[j] - now[j-1]):
-            return False
-        if now[j] < now[j-1]:
-            for k in range(l):
-                if j + k >= n or visited[j+k] or now[j] != now[j+k]:
-                    return False
-                if now[j] == now[j+k]:
-                    visited[j+k] = True
-        elif now[j] > now[j-1]:
-            for k in range(l):
-                if j - k - 1 < 0 or visited[j-k-1] or now[j-1] != now[j-k-1]:
-                    return False
-                if now[j-1] == now[j-k-1]:
-                    visited[j -k -1] = True
-    return True
+# def pos(now):
+#     for j in range(1, n):
+#         if 1 < abs(now[j] - now[j-1]):
+#             return False
+#         if now[j] < now[j-1]:
+#             for k in range(l):
+#                 if j + k >= n or visited[j+k] or now[j] != now[j+k]:
+#                     return False
+#                 if now[j] == now[j+k]:
+#                     visited[j+k] = True
+#         elif now[j] > now[j-1]:
+#             for k in range(l):
+#                 if j - k - 1 < 0 or visited[j-k-1] or now[j-1] != now[j-k-1]:
+#                     return False
+#                 if now[j-1] == now[j-k-1]:
+#                     visited[j -k -1] = True
+#     return True
 
             
             
     
-for i in range(n):
-    visited = [False] * (n+1)
-    if pos(graph[i]):
-        answer += 1
+# for i in range(n):
+#     visited = [False] * (n+1)
+#     if pos(graph[i]):
+#         answer += 1
         
-for i in range(n):
-    visited = [False] * (n+1)
-    if pos([graph[j][i] for j in range(n)]):
-        answer += 1
+# for i in range(n):
+#     visited = [False] * (n+1)
+#     if pos([graph[j][i] for j in range(n)]):
+#         answer += 1
 
-print(answer-1)
+# print(answer-1)
+
+## 사다리 조작 백준 15684
+
+n, m, h = map(int, input().split())
+graph = [[0] * n for _ in range(h)]
+for _ in range(m):
+    a, b = map(int, input().split())
+    graph[a-1][b-1] = 1
+    
+def check():
+    for i in range(n):
+        temp = i
+        for j in range(h):
+            if graph[j][temp]:
+                temp += 1
+            elif temp > 0 and graph[j][temp - 1]:
+                temp -= 1
+        if temp != i:
+            return False
+    return True
+
+answer = 4
+
+def dfs(depth, x, y):
+    global answer
+    if depth >= answer:
+        return
+    if check():
+        answer = min(answer, depth)
+    if depth == 3:
+        return
+    for i in range(x, h):
+        if i == x:
+            k = y
+        else:
+            k = 0
+        for j in range(k, n-1):
+            if graph[i][j] == 1:
+                continue
+            graph[i][j] = 1
+            dfs(depth + 1, i, j + 2)
+            graph[i][j] = 0
+            
+dfs(0, 0, 0)
+
+if answer <= 3:
+    print(answer)
+else:
+    print(-1)
+    
