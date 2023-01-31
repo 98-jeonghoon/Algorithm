@@ -656,3 +656,67 @@
 #                 dfs(n, computers, visited, i)
 
 # print(solution(3, [[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
+
+# def solution(cacheSize, cities):
+#     answer = 0
+#     arr = []
+#     if cacheSize == 0:
+#         answer = len(cities) * 5
+#         return answer
+#     for i in cities:
+#         i = i.lower()
+#         if i not in arr:
+#             if len(arr) < cacheSize:
+#                 arr.append(i)
+#             else:
+#                 arr.pop(0)
+#                 arr.append(i)
+#             answer += 5
+#         else:
+#             arr.pop(arr.index(i))
+#             arr.append(i)
+#             answer += 1
+            
+            
+#     return answer
+
+# # print(solution(3, ["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "Jeju", "Pangyo", "Seoul", "NewYork", "LA"]))
+# # print(solution(3, ["Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul"]))
+# # print(solution(2, ["Jeju", "Pangyo", "NewYork", "newyork"]))
+# # print(solution(2, ["a", "a", "a", "b", "b", "b", "c", "c", "c"]))
+# # print(solution(3, ['a', 'b', 'c', 'a']))
+# # print(solution(3, ['a', 'b', 'c', 'a', 'b']))
+# print(solution(3, ['a', 'b', 'c', 'a', 'b', 'd', 'c']))
+
+
+from collections import deque
+
+def solution(s):
+    answer = 0
+    s = deque(s)
+    for _ in range(len(s)):
+        if is_Valid(s):
+            answer += 1
+        s.rotate(-1)
+    return answer
+
+def is_Valid(s):
+    arr = []
+    for i in s:
+        if arr == []:
+            arr.append(i)
+        else:
+            if i == ')' and arr[-1] == '(':
+                arr.pop()
+            elif i == ']' and arr[-1] == '[':
+                arr.pop()
+            elif i == '}' and arr[-1] == '{':
+                arr.pop()
+            else:
+                arr.append(i)
+    if arr == []:
+        return True
+    else:
+        return False
+
+print(solution('[](){}'))
