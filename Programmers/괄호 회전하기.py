@@ -1,18 +1,31 @@
-def isValid(s):
-    stack = []
-    for c in s:
-        if c == '(' or c == '[' or c == '{':
-            stack.append(c)
-        elif c == ')' or c == ']' or c == '}':
-            if not stack or (c == ')' and stack[-1] != '(') or (c == ']' and stack[-1] != '[') or (c == '}' and stack[-1] != '{'):
-                return False
-            stack.pop()
-    return not stack
+from collections import deque
 
 def solution(s):
     answer = 0
-    for i in range(len(s)):
-        word = s[i:] + s[:i]
-        if isValid(word):
+    s = deque(s)
+    for _ in range(len(s)):
+        if is_Valid(s):
             answer += 1
+        s.rotate(-1)
     return answer
+
+def is_Valid(s):
+    arr = []
+    for i in s:
+        if arr == []:
+            arr.append(i)
+        else:
+            if i == ')' and arr[-1] == '(':
+                arr.pop()
+            elif i == ']' and arr[-1] == '[':
+                arr.pop()
+            elif i == '}' and arr[-1] == '{':
+                arr.pop()
+            else:
+                arr.append(i)
+    if arr == []:
+        return True
+    else:
+        return False
+
+print(solution('[](){}'))
