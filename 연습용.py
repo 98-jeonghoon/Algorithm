@@ -689,34 +689,132 @@
 # print(solution(3, ['a', 'b', 'c', 'a', 'b', 'd', 'c']))
 
 
-from collections import deque
+# from collections import deque
 
-def solution(s):
+# def solution(s):
+#     answer = 0
+#     s = deque(s)
+#     for _ in range(len(s)):
+#         if is_Valid(s):
+#             answer += 1
+#         s.rotate(-1)
+#     return answer
+
+# def is_Valid(s):
+#     arr = []
+#     for i in s:
+#         if arr == []:
+#             arr.append(i)
+#         else:
+#             if i == ')' and arr[-1] == '(':
+#                 arr.pop()
+#             elif i == ']' and arr[-1] == '[':
+#                 arr.pop()
+#             elif i == '}' and arr[-1] == '{':
+#                 arr.pop()
+#             else:
+#                 arr.append(i)
+#     if arr == []:
+#         return True
+#     else:
+#         return False
+
+# print(solution('[](){}'))
+
+
+# def solution(progresses, speeds):
+#     answer = []
+#     arr = []
+#     for i in range(len(progresses)):
+#         count = 0
+#         while True:
+#             count += 1
+#             progresses[i] += speeds[i]
+#             if progresses[i] >= 100:
+#                 break
+#         arr.append(count)
+#     from collections import deque
+#     queue = deque(arr)
+#     while queue:
+#         tmp = queue.popleft()
+#         cnt = 1
+#         while queue and tmp >= queue[0]:
+#             queue.popleft()
+#             cnt += 1
+#         answer.append(cnt)
+        
+#     return answer
+
+
+# print(solution([95, 90, 99, 99, 80, 99], [1,1,1,1,1,1]))
+# def solution(priorities, location):
+#     from collections import deque
+#     answer = 0
+#     arr = []
+#     for idx, prior in enumerate(priorities):
+#         arr.append((idx, prior))
+#     queue = deque(arr)
+
+#     while queue:
+#         max_prior = max(queue, key=lambda x:x[1])[1]
+#         idx, prior = queue.popleft()
+#         if queue and prior < max_prior:
+#             queue.append((idx, prior))
+#         else:
+#             answer += 1
+#             if idx == location:
+#                 break
+        
+#     return answer
+
+# print(solution([2, 1, 2, 1, 2, 1, 2, 1, 2], 1))
+# print(solution([2, 1, 3, 2], 2))
+# print(solution([1,1,9,1,1,1], 0))
+
+# from collections import deque
+# def solution(numbers, target):
+#     answer = 0
+#     n = len(numbers)
+#     def back_tracking(depth, result):
+#         if depth == n:
+#             if result == target:
+#                 nonlocal answer
+#                 answer += 1
+#         else:
+#             back_tracking(depth + 1, result + numbers[depth])
+#             back_tracking(depth + 1, result - numbers[depth])
+#     back_tracking(0, 0)
+#     return answer
+# print(solution([1,1,1,1,1], 3))
+
+# def solution(scoville, K):
+#     import heapq
+#     answer = 0
+#     while True:
+#         heapq.heapify(scoville)
+#         if len(scoville) == 1 and scoville[0] < K:
+#             return -1
+
+#         first = heapq.heappop(scoville)
+#         if first < K:
+#             answer += 1
+#             second = heapq.heappop(scoville) * 2
+#             heapq.heappush(scoville, first + second)
+#         else:
+#             return answer
+        
+
+# print(solution([1, 2, 3, 9, 10, 12], 7))
+
+def solution(skill, skill_trees):
     answer = 0
-    s = deque(s)
-    for _ in range(len(s)):
-        if is_Valid(s):
+    for tree in skill_trees:
+        s = ''
+        for i in tree:
+            if i in skill:
+                s += i
+        if skill[:len(s)] == s:
             answer += 1
-        s.rotate(-1)
     return answer
 
-def is_Valid(s):
-    arr = []
-    for i in s:
-        if arr == []:
-            arr.append(i)
-        else:
-            if i == ')' and arr[-1] == '(':
-                arr.pop()
-            elif i == ']' and arr[-1] == '[':
-                arr.pop()
-            elif i == '}' and arr[-1] == '{':
-                arr.pop()
-            else:
-                arr.append(i)
-    if arr == []:
-        return True
-    else:
-        return False
-
-print(solution('[](){}'))
+print(solution('CBD', ["BACDE", "CBADF", "AECB", "BDA"]	))
