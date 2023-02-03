@@ -506,63 +506,63 @@
 
 ## 경사로 백준 14890
 
-n, l = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(n)]
+# n, l = map(int, input().split())
+# graph = [list(map(int, input().split())) for _ in range(n)]
 
 
-answer = 0
+# answer = 0
 
-def pos(now):
-    for j in range(1, n):
-        if 1 < abs(now[j] - now[j-1]):
-            return False
-        if now[j] < now[j-1]:
-            for k in range(l):
-                if j + k >= n or visited[j+k] or now[j] != now[j+k]:
-                    return False
-                if now[j] == now[j+k]:
-                    visited[j+k] = True
-        elif now[j] > now[j-1]:
-            for k in range(l):
-                if j - k - 1 < 0 or visited[j-k-1] or now[j-1] != now[j-k-1]:
-                    return False
-                if now[j-1] == now[j-k-1]:
-                    visited[j -k -1] = True
-    return True
+# def pos(now):
+#     for j in range(1, n):
+#         if 1 < abs(now[j] - now[j-1]):
+#             return False
+#         if now[j] < now[j-1]:
+#             for k in range(l):
+#                 if j + k >= n or visited[j+k] or now[j] != now[j+k]:
+#                     return False
+#                 if now[j] == now[j+k]:
+#                     visited[j+k] = True
+#         elif now[j] > now[j-1]:
+#             for k in range(l):
+#                 if j - k - 1 < 0 or visited[j-k-1] or now[j-1] != now[j-k-1]:
+#                     return False
+#                 if now[j-1] == now[j-k-1]:
+#                     visited[j -k -1] = True
+#     return True
 
-answer = 4
+# answer = 4
 
-def dfs(depth, x, y):
-    global answer
-    if depth >= answer:
-        return
-    if check():
-        answer = min(answer, depth)
-    if depth == 3:
-        return
-    for i in range(x, h):
-        if i == x:
-            k = y
-        else:
-            k = 0
-        for j in range(k, n-1):
-            if graph[i][j] == 1:
-                continue
-            graph[i][j] = 1
-            dfs(depth + 1, i, j + 2)
-            graph[i][j] = 0
+# def dfs(depth, x, y):
+#     global answer
+#     if depth >= answer:
+#         return
+#     if check():
+#         answer = min(answer, depth)
+#     if depth == 3:
+#         return
+#     for i in range(x, h):
+#         if i == x:
+#             k = y
+#         else:
+#             k = 0
+#         for j in range(k, n-1):
+#             if graph[i][j] == 1:
+#                 continue
+#             graph[i][j] = 1
+#             dfs(depth + 1, i, j + 2)
+#             graph[i][j] = 0
             
-dfs(0, 0, 0)
+# dfs(0, 0, 0)
 
-if answer <= 3:
-    print(answer)
-else:
-    print(-1)
+# if answer <= 3:
+#     print(answer)
+# else:
+#     print(-1)
     
-for i in range(n):
-    visited = [False] * (n+1)
-    if pos(graph[i]):
-        answer += 1
+# for i in range(n):
+#     visited = [False] * (n+1)
+#     if pos(graph[i]):
+#         answer += 1
         
 # for i in range(n):
 #     visited = [False] * (n+1)
@@ -682,3 +682,257 @@ for i in range(n):
 #                 dfs(n, computers, visited, i)
 
 # print(solution(3, [[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
+
+# def solution(k, dungeons):
+#     from itertools import permutations
+#     answer = 0
+#     dungeons = list(permutations(dungeons, len(dungeons)))
+#     for dun in dungeons:
+#         count = 0
+#         firo = k
+#         for need, use in dun:
+#             if need > firo:
+#                 break
+#             else:
+#                 firo -= use
+#                 count += 1
+#         answer = max(answer, count)
+#     return answer
+    
+    
+# print(solution(80, [[80,20],[50,40],[30,10]]))
+
+# def solution(word):
+#     answer = 0
+#     arr = []
+#     from itertools import product
+#     alpha = ['A', 'E', 'I', 'O', 'U']
+#     for i in range(1, len(alpha) + 1):
+#         case = list(product(alpha, repeat=i))
+#         for j in case:
+#             arr.append(''.join(j))
+#     arr.sort()
+#     return arr.index(word) + 1
+
+# print(solution('AAAAE'))
+
+# def solution(m, n, board):
+#     answer = 0
+#     map = []
+#     for i in range(m):
+#         map.append(list(board[i]))
+#     remove = set()
+    
+#     while True:
+#         for i in range(m - 1):
+#             for j in range(n - 1):
+#                 now = map[i][j]
+#                 if map[i][j] == 0:
+#                     continue
+#                 if map[i+1][j] == now and map[i][j+1] == now and map[i+1][j+1] == now:
+#                     remove.add((i, j))
+#                     remove.add((i+1, j))
+#                     remove.add((i, j+1))
+#                     remove.add((i+1,j+1))
+                    
+#         if remove:
+#             answer += len(remove)
+#             for a, b in remove:
+#                 map[a][b] = 0
+#             remove = set()
+#         else:
+#             return answer
+        
+#         while True:
+#             cnt = 0
+#             for i in range(m - 1):
+#                 for j in range(n):
+#                     if map[i][j]:
+#                         if map[i + 1][j] == 0:
+#                             map[i + 1][j] = map[i][j]
+#                             map[i][j] = 0
+#                             cnt = 1
+#             if cnt == 0:
+#                 break
+        
+
+# print(solution(6, 6, ["TTTANT", "RRFACC", "RRRFCC", "TRRRAA", "TTMMMF", "TMMTTJ"]))
+
+# def solution(s):
+#     arr = []
+#     n = len(s) // 2
+#     if len(s) == 1:
+#         return 1
+    
+#     for i in range(1, n+1):
+#         tmp = ''
+#         count = 1
+#         compare = s[:i]
+#         for j in range(i, len(s), i):
+#             if compare == s[j:j+i]:
+#                 count += 1
+#             else:
+#                 if count != 1:
+#                     tmp += str(count) + compare
+#                 else:
+#                     tmp += compare
+#                 compare = s[j:j+i]
+#                 count = 1
+#         if count != 1:
+#             tmp += str(count) + compare
+#         else:
+#             tmp += compare
+#         arr.append(len(tmp))
+#     return min(arr)
+
+# print(solution("aabbaccc"))
+
+# def solution(queue1, queue2):
+#     answer = 0
+#     count = 0
+#     num = (sum(queue1) + sum(queue2)) // 2
+#     from collections import deque
+#     queue1 = deque(queue1)
+#     queue2 = deque(queue2)
+#     limit = len(queue1) * 3
+#     while True:
+#         if sum(queue1) ==num and sum(queue2) == num:
+#             break
+#         elif sum(queue1) > sum(queue2):
+#             queue2.append(queue1.popleft())
+#             count += 1
+#         elif sum(queue1) < sum(queue2):
+#             queue1.append(queue2.popleft())
+#             count += 1
+        
+#         if count == limit:
+#             count = -1
+#             break
+                      
+#     return count
+
+# print(solution([3,2,7,2], [4,6,5,1]))
+
+# def solution(orders, course):
+#     from itertools import combinations
+#     from collections import Counter
+#     answer = []
+#     for i in course:
+#         arr = []
+#         for j in orders:
+#             arr += list(combinations(j, i))
+#         counter = Counter(arr)
+#         # print(counter)
+#         if len(counter) == 0:
+#             continue
+#         if max(counter.values()) == 1:
+#             continue
+#         for f in counter:
+#             if counter[f] == max(counter.values()):
+#                 answer.append(''.join(f))
+#     # answer = list(set(answer))
+#     print(answer)
+            
+    # for order in orders:
+    #     for i in range(1, len(order) + 1):
+    #         for j in combinations(order, i):
+    #             arr.append(''.join(j))
+    # arr = Counter(arr)
+    # arr = list(arr.items())
+    # arr.sort(key=lambda x : x[1], reverse=True)
+    # print(arr)
+#     return answer
+
+# print(solution(["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"], [2,3,4]))
+
+# def solution(m, n, puddles):
+#     answer = 0
+#     dp = [[0] * m for _ in range(n)]
+#     dp[0][0] = 1
+#     for i, j in puddles:
+#         dp[j-1][i-1] = -1
+    
+#     for i in range(n):
+#         for j in range(m):
+#             if dp[i][j] == -1:
+#                 dp[i][j] = 0
+#                 continue
+#             dp[i][j] += (dp[i - 1][j] + dp[i][j - 1]) % 1000000007
+#     return dp[n-1][m-1]
+
+# print(solution(4,3,[[2,2]]))
+
+# n, m = map(int, input().split())
+# arr = []
+# visited = [False] * (n+1)
+# def backtracking():
+#     if len(arr) == m:
+#         print(' '.join(map(str, arr)))
+#         return
+#     for i in range(1, n+1):
+#         if visited[i]:
+#             continue
+#         visited[i] = True
+#         arr.append(i)
+#         backtracking()
+#         visited[i] = False
+#         arr.pop()
+# backtracking()
+
+# n, m = map(int, input().split())
+# alpha = list(map(str, input().split()))
+# alpha.sort()
+# need_alpah = ['a', 'e', 'i', 'o', 'u']
+# visited = [False] * (m+1)
+# arr = []
+# def backtracking(depth, idx):
+#     if depth == n:
+#         vo, co =0 ,0
+#         for i in range(n):
+#             if arr[i] in need_alpah:
+#                 vo += 1
+#             else:
+#                 co += 1
+#         if vo >= 1 and co >= 2:
+#             print(''.join(arr))
+#         return
+    
+#     for i in range(idx, m):
+#         if visited[i]:
+#             continue
+#         visited[i] = True
+#         arr.append(alpha[i])
+#         backtracking(depth + 1, i + 1)
+#         visited[i] = False
+#         arr.pop()
+        
+# backtracking(0, 0)
+
+n = int(input())
+num = list(map(int, input().split()))
+add, sub, mul, div = list(map(int, input().split()))
+
+result = num[0]
+max_num = -1e9
+min_num = 1e9
+
+def backtracking(depth, add, sub, mul, div, result):
+    global max_num, min_num
+    if depth == n:
+        max_num = max(max_num, result)
+        min_num = min(min_num, result)
+        return
+    if add:
+        backtracking(depth + 1, add - 1, sub, mul, div, result + num[depth])
+    if sub:
+        backtracking(depth + 1, add, sub - 1, mul, div, result - num[depth])
+    if mul:
+        backtracking(depth + 1, add, sub, mul - 1, div, result * num[depth])
+    if div:
+        backtracking(depth + 1, add, sub, mul, div - 1, int(result / num[depth]))
+
+backtracking(1, add, sub, mul, div, result)
+
+print(max_num)
+print(min_num)
+    
