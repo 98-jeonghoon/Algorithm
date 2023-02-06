@@ -908,31 +908,320 @@
         
 # backtracking(0, 0)
 
-n = int(input())
-num = list(map(int, input().split()))
-add, sub, mul, div = list(map(int, input().split()))
+# n = int(input())
+# num = list(map(int, input().split()))
+# add, sub, mul, div = list(map(int, input().split()))
 
-result = num[0]
-max_num = -1e9
-min_num = 1e9
+# result = num[0]
+# max_num = -1e9
+# min_num = 1e9
 
-def backtracking(depth, add, sub, mul, div, result):
-    global max_num, min_num
-    if depth == n:
-        max_num = max(max_num, result)
-        min_num = min(min_num, result)
-        return
-    if add:
-        backtracking(depth + 1, add - 1, sub, mul, div, result + num[depth])
-    if sub:
-        backtracking(depth + 1, add, sub - 1, mul, div, result - num[depth])
-    if mul:
-        backtracking(depth + 1, add, sub, mul - 1, div, result * num[depth])
-    if div:
-        backtracking(depth + 1, add, sub, mul, div - 1, int(result / num[depth]))
+# def backtracking(depth, add, sub, mul, div, result):
+#     global max_num, min_num
+#     if depth == n:
+#         max_num = max(max_num, result)
+#         min_num = min(min_num, result)
+#         return
+#     if add:
+#         backtracking(depth + 1, add - 1, sub, mul, div, result + num[depth])
+#     if sub:
+#         backtracking(depth + 1, add, sub - 1, mul, div, result - num[depth])
+#     if mul:
+#         backtracking(depth + 1, add, sub, mul - 1, div, result * num[depth])
+#     if div:
+#         backtracking(depth + 1, add, sub, mul, div - 1, int(result / num[depth]))
 
-backtracking(1, add, sub, mul, div, result)
+# backtracking(1, add, sub, mul, div, result)
 
-print(max_num)
-print(min_num)
+# print(max_num)
+# print(min_num)
     
+
+# n = int(input())
+# dp = [0] * (n + 1)
+# dp[0] = 0
+# dp[1] = 1
+
+# for i in range(2, n + 1):
+#     dp[i] = dp[i - 1] + dp[i - 2]
+# print(dp[n])
+
+# n = int(input())
+# graph = [list(input()) for _ in range(n)]
+
+# dx = [-1, 1, 0, 0]
+# dy = [0, 0, -1, 1]
+
+# from collections import deque
+
+# def bfs(x, y):
+#     queue = deque()
+#     queue.append((x, y))
+#     graph[x][y] = 0
+#     count = 0
+#     while queue:
+#         x, y = queue.popleft()
+#         for i in range(4):
+#             nx = x + dx[i]
+#             ny = y + dy[i]
+#             if nx < 0 or nx >= n or ny < 0 or ny >= n:
+#                 continue
+#             if graph[nx][ny] == '0':
+#                 continue
+#             if graph[nx][ny] == '1':
+#                 count += 1
+#                 graph[nx][ny] = '0'
+#                 queue.append((nx, ny))
+#     return count
+
+# arr = []
+# for i in range(n):
+#     for j in range(n):
+#         if graph[i][j] == '1':
+#             arr.append(bfs(i, j))
+            
+# print(len(arr))
+# for i in arr:
+#     print(i)
+
+# n = int(input())
+# m = int(input())
+# graph = [[] for _ in range(n+1)]
+# for i in range(m):
+#     a, b = map(int, input().split())
+#     graph[a].append(b)
+#     graph[b].append(a)
+
+# for i in range(len(graph)):
+#     graph[i].sort()
+
+# visited = [False] * (n + 1)
+# from collections import deque
+# def bfs(graph, start, visited):
+#     count = 0
+#     visited[start] = True
+#     queue = deque()
+#     queue.append(start)
+#     while queue:
+#         now = queue.popleft()
+#         for i in graph[now]:
+#             if not visited[i]:
+#                 queue.append(i)
+#                 visited[i] = True
+#                 count += 1
+#     return count
+
+# answer = bfs(graph, 1, visited)
+# print(answer)
+# T = int(input())
+# for i in range(T):
+#     m, n, k = map(int, input().split())
+#     graph = [[0] * m for _ in range(n)]
+#     for i in range(k):
+#         a, b = map(int, input().split())
+#         graph[b][a] = 1
+
+#     from collections import deque
+#     dx = [-1, 1, 0, 0]
+#     dy = [0, 0, -1, 1]
+#     def bfs(x, y):
+#         queue = deque()
+#         queue.append((x, y))
+#         graph[x][y] = 0
+#         while queue:
+#             x, y = queue.popleft()
+#             for i in range(4):
+#                 nx = x + dx[i]
+#                 ny = y + dy[i]
+#                 if nx < 0 or nx >= n or ny < 0 or ny >= m:
+#                     continue
+#                 if graph[nx][ny] == 0:
+#                     continue
+#                 if graph[nx][ny] == 1:
+#                     graph[nx][ny] = 0
+#                     queue.append((nx, ny))
+#     count = 0
+#     for i in range(n):
+#         for j in range(m):
+#             if graph[i][j] == 1:
+#                 bfs(i, j)
+#                 count += 1
+
+#     print(count)     
+
+
+# import string
+
+# tmp = string.digits+string.ascii_lowercase
+# def convert(num, base) :
+#     q, r = divmod(num, base)
+#     if q == 0 :
+#         return tmp[r] 
+#     else :
+#         return convert(q, base) + tmp[r]
+    
+# print(convert(10, 2))
+
+# def is_prime(x):
+#     import math
+#     for i in range(2, int(math.sqrt(x)) + 1):
+#         if x % i == 0:
+#             return False
+#     return True
+
+# def solution(n):
+#     min_area = 1e9
+#     min_combination = (0, 0, 0)
+#     for l in range(1, 50 + 1):
+#         for w in range(1, 50 + 1):
+#             for h in range(1, 50 + 1):
+#                 if l * w * h == n:
+#                     area = 2 * (l * w + w * h + h * l)
+#                     if area < min_area:
+#                         min_area = area
+#                         min_combination = (l, w, h)
+#                     elif area == min_area:
+#                         if (l, w, h) < min_combination:
+#                             min_combination = (l, w, h)
+#     list(min_combination).sort()
+#     return min_combination
+# n = int(input())
+# l, w, h = solution(n)
+# print(l, w, h)
+
+# T = int(input())
+# for i in range(T):
+#     a, b = map(int, input().split())
+#     if (a + b) % 24 == 0:
+#         print('#{} 0'.format(i+1))
+#     elif (a+b) < 24:
+#         print('#{} {}'.format((i+1),(a+b)))
+#     else:
+#         print('#{} {}'.format((i+1), ((a+b) % 24)))
+
+
+# n = int(input())
+# graph = []
+# for _ in range(n):
+#     graph.append(list(map(int, input().split())))
+
+# for i in range(n):
+#     for j in range(n):
+#         if graph[i][j] == 9:
+#             graph[i][j] = 0
+#             x, y = i, j
+
+# shark_size = 2
+# dx = [-1, 1, 0, 0]
+# dy = [0, 0, -1, 1]
+
+# from collections import deque
+# def bfs(x, y):
+#     queue = deque()
+#     visited = [[-1] * n for _ in range(n)]
+#     visited[x][y] = 0
+#     queue.append((x, y))
+#     while queue:
+#         x, y = queue.popleft()
+#         for i in range(4):
+#             nx = x + dx[i]
+#             ny = y + dy[i]
+#             if 0 <= nx < n and 0 <= ny < n:
+#                 if visited[nx][ny] == -1 and graph[nx][ny] <= shark_size:
+#                     visited[nx][ny] = visited[x][y] + 1
+#                     queue.append((nx, ny))
+#     return visited
+
+# def find(visited):
+#     x, y = 0, 0
+#     min_dist = 1e9
+#     for i in range(n):
+#         for j in range(n):
+#             if visited[i][j] != -1 and 1 <= graph[i][j] and graph[i][j] < shark_size:
+#                 if visited[i][j] < min_dist:
+#                     x, y = i, j
+#                     min_dist = visited[i][j]
+#     if min_dist == 1e9:
+#         return None
+#     else:
+#         return x, y, min_dist
+    
+# result = 0
+# ate = 0
+
+# while True:
+#     value = find(bfs(x, y))
+#     if value == None:
+#         print(result)
+#         exit(0)
+#     else:
+#         x, y = value[0], value[1]
+#         result += value[2]
+#         graph[x][y] = 0
+#         ate += 1
+#         if ate >= shark_size:
+#             shark_size += 1
+#             ate = 0
+            
+n = int(input())
+graph = []
+for i in range(n):
+    graph.append(list(map(int, input().split())))
+    
+for i in range(n):
+    for j in range(n):
+        if graph[i][j] == 9:
+            graph[i][j] = 0
+            x, y = i, j
+
+shark_size = 2
+from collections import deque
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+def bfs(x, y):
+    visited = [[-1] * n for _ in range(n)]
+    queue = deque()
+    queue.append((x,y))
+    visited[x][y] = 0
+    while queue:
+        x, y = queue.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if 0 <= nx < n and 0 <= ny < n:
+                if visited[nx][ny] == -1 and graph[nx][ny] <= shark_size:
+                    visited[nx][ny] = visited[x][y] + 1
+                    queue.append((nx, ny))
+                    
+    return visited
+
+def find(visited):
+    min_dist = 1e9
+    for i in range(n):
+        for j in range(n):
+            if visited[i][j] != -1 and 1 <= graph[i][j] and graph[i][j] < shark_size:
+                if visited[i][j] < min_dist:
+                    min_dist = visited[i][j]
+                    x, y = i, j
+    if min_dist == 1e9:
+        return None
+    else:
+        return x, y, min_dist
+    
+answer = 0
+ate = 0    
+while True:
+    value = find(bfs(x, y))
+    if value == None:
+        print(answer)
+        exit(0)
+    else:
+        ate += 1
+        x, y = value[0], value[1] 
+        answer += value[2]
+        graph[x][y] = 0
+        if ate >= shark_size:
+            shark_size += 1
+            ate = 0
+            
