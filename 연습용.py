@@ -806,15 +806,46 @@
 
 # print(solution([1, 2, 3, 9, 10, 12], 7))
 
-def solution(skill, skill_trees):
-    answer = 0
-    for tree in skill_trees:
-        s = ''
-        for i in tree:
-            if i in skill:
-                s += i
-        if skill[:len(s)] == s:
-            answer += 1
-    return answer
+# def solution(skill, skill_trees):
+#     answer = 0
+#     for tree in skill_trees:
+#         s = ''
+#         for i in tree:
+#             if i in skill:
+#                 s += i
+#         if skill[:len(s)] == s:
+#             answer += 1
+#     return answer
 
-print(solution('CBD', ["BACDE", "CBADF", "AECB", "BDA"]	))
+# print(solution('CBD', ["BACDE", "CBADF", "AECB", "BDA"]	))
+
+# def solution(n):
+#     graph = [[0] * i for i in range(1, n+1)]
+#     dx = [1, 0 ,-1]
+#     dy = [0, 1, -1]
+#     total = 0
+#     for i in range(n+1):
+#         total += i
+#     count = 1
+#     d = 0
+#     x, y =0, 0
+#     while count <= total:
+#         graph[x][y] = count
+#         count += 1
+#         nx = x + dx[d]
+#         ny = y + dy[d]
+#         if 0 <= nx < n and 0 <= ny < n and graph[nx][ny] == 0:
+#             x = nx
+#             y = ny
+#         else:
+#             d = (d+1) % 3
+#             x = x + dx[d]
+#             y = y + dy[d]
+#     arr = []
+#     for i in range(len(graph)):
+#         for j in range(len(graph[i])):
+#             arr.append(graph[i][j])
+#     print(arr)  
+# print(solution(5))
+
+n, m = map(int, input().split())

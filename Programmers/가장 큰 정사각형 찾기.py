@@ -34,6 +34,6 @@ def solution(board):
 #                 return False
 #     return True
 
-# print(solution([[0,1,1,1],[1,1,1,1],[1,1,1,1],[0,0,1,0]]))
+print(solution([[0,1,1,1],[1,1,1,1],[1,1,1,1],[0,0,1,0]]))
 # print(solution([[0,0,1,1],[1,1,1,1]]))
-print(solution([[1,0,1,1],[0,0,0,1],[0,1,0,1],[0,1,0,0]]))
+# print(solution([[1,0,1,1],[0,0,0,1],[0,1,0,1],[0,1,0,0]]))

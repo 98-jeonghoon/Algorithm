@@ -40,7 +40,35 @@ def solution(n):
             d = (d+1) % 3
             x += dx[d]
             y += dy[d]
+    arr = []
+    for i in range(len(graph)):
+        for j in range(len(graph[i])):
+            arr.append(graph[i][j])
+    print(arr)
     return sum(graph, [])
         
     
 print(solution(4))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

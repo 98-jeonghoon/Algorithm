@@ -1,3 +1,12 @@
+# def solution(number, k):
+#     answer = []
+#     for num in number:
+#         while answer and k > 0 and answer[-1] < num:
+#             answer.pop()
+#             k -= 1
+#         answer.append(num)
+#     return ''.join(answer[:len(number)-k])
+
 def solution(number, k):
     answer = []
     for num in number:
@@ -5,7 +14,11 @@ def solution(number, k):
             answer.pop()
             k -= 1
         answer.append(num)
-    return ''.join(answer[:len(number)-k])
+    s = ''
+    for i in answer:
+        s += str(i)
+    return s
+
 # def solution(number, k):
 #     from itertools import combinations
 #     number = list(number)
@@ -15,6 +28,7 @@ def solution(number, k):
 #         arr.append(''.join(i))
 #     arr.sort()
 #     return arr[-1]
+print(solution('4321', 1))
 print(solution("4177252841", 4))
 print(solution("3813132874", 6))
 print(solution("956870", 3))
