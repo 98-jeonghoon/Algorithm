@@ -1,16 +1,23 @@
 def solution(priorities, location):
     from collections import deque
-    queue = deque([(p, idx) for idx, p in enumerate(priorities)])
     answer = 0
+    arr = []
+    for idx, prior in enumerate(priorities):
+        arr.append((idx, prior))
+    queue = deque(arr)
+
     while queue:
-        job = queue.popleft()
-        if queue and job[0] < max(queue)[0]:
-            queue.append(job)
+        max_prior = max(queue, key=lambda x:x[1])[1]
+        idx, prior = queue.popleft()
+        if queue and prior < max_prior:
+            queue.append((idx, prior))
         else:
             answer += 1
-            if job[1] == location:
+            if idx == location:
                 break
-
+        
     return answer
 
-print(solution([2,1,3,2], 2))
+print(solution([2, 1, 2, 1, 2, 1, 2, 1, 2], 1))
+print(solution([2, 1, 3, 2], 2))
+print(solution([1,1,9,1,1,1], 0))
