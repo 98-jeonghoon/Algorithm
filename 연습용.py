@@ -530,8 +530,34 @@
 #                     visited[j -k -1] = True
 #     return True
 
+# answer = 4
+
+# def dfs(depth, x, y):
+#     global answer
+#     if depth >= answer:
+#         return
+#     if check():
+#         answer = min(answer, depth)
+#     if depth == 3:
+#         return
+#     for i in range(x, h):
+#         if i == x:
+#             k = y
+#         else:
+#             k = 0
+#         for j in range(k, n-1):
+#             if graph[i][j] == 1:
+#                 continue
+#             graph[i][j] = 1
+#             dfs(depth + 1, i, j + 2)
+#             graph[i][j] = 0
             
-            
+# dfs(0, 0, 0)
+
+# if answer <= 3:
+#     print(answer)
+# else:
+#     print(-1)
     
 # for i in range(n):
 #     visited = [False] * (n+1)
@@ -657,36 +683,167 @@
 
 # print(solution(3, [[1, 1, 0], [1, 1, 0], [0, 0, 1]]))
 
-# def solution(cacheSize, cities):
+# def solution(k, dungeons):
+#     from itertools import permutations
+#     answer = 0
+#     dungeons = list(permutations(dungeons, len(dungeons)))
+#     for dun in dungeons:
+#         count = 0
+#         firo = k
+#         for need, use in dun:
+#             if need > firo:
+#                 break
+#             else:
+#                 firo -= use
+#                 count += 1
+#         answer = max(answer, count)
+#     return answer
+    
+    
+# print(solution(80, [[80,20],[50,40],[30,10]]))
+
+# def solution(word):
 #     answer = 0
 #     arr = []
-#     if cacheSize == 0:
-#         answer = len(cities) * 5
-#         return answer
-#     for i in cities:
-#         i = i.lower()
-#         if i not in arr:
-#             if len(arr) < cacheSize:
-#                 arr.append(i)
-#             else:
-#                 arr.pop(0)
-#                 arr.append(i)
-#             answer += 5
+#     from itertools import product
+#     alpha = ['A', 'E', 'I', 'O', 'U']
+#     for i in range(1, len(alpha) + 1):
+#         case = list(product(alpha, repeat=i))
+#         for j in case:
+#             arr.append(''.join(j))
+#     arr.sort()
+#     return arr.index(word) + 1
+
+# print(solution('AAAAE'))
+
+# def solution(m, n, board):
+#     answer = 0
+#     map = []
+#     for i in range(m):
+#         map.append(list(board[i]))
+#     remove = set()
+    
+#     while True:
+#         for i in range(m - 1):
+#             for j in range(n - 1):
+#                 now = map[i][j]
+#                 if map[i][j] == 0:
+#                     continue
+#                 if map[i+1][j] == now and map[i][j+1] == now and map[i+1][j+1] == now:
+#                     remove.add((i, j))
+#                     remove.add((i+1, j))
+#                     remove.add((i, j+1))
+#                     remove.add((i+1,j+1))
+                    
+#         if remove:
+#             answer += len(remove)
+#             for a, b in remove:
+#                 map[a][b] = 0
+#             remove = set()
 #         else:
-#             arr.pop(arr.index(i))
-#             arr.append(i)
-#             answer += 1
+#             return answer
+        
+#         while True:
+#             cnt = 0
+#             for i in range(m - 1):
+#                 for j in range(n):
+#                     if map[i][j]:
+#                         if map[i + 1][j] == 0:
+#                             map[i + 1][j] = map[i][j]
+#                             map[i][j] = 0
+#                             cnt = 1
+#             if cnt == 0:
+#                 break
+        
+
+# print(solution(6, 6, ["TTTANT", "RRFACC", "RRRFCC", "TRRRAA", "TTMMMF", "TMMTTJ"]))
+
+# def solution(s):
+#     arr = []
+#     n = len(s) // 2
+#     if len(s) == 1:
+#         return 1
+    
+#     for i in range(1, n+1):
+#         tmp = ''
+#         count = 1
+#         compare = s[:i]
+#         for j in range(i, len(s), i):
+#             if compare == s[j:j+i]:
+#                 count += 1
+#             else:
+#                 if count != 1:
+#                     tmp += str(count) + compare
+#                 else:
+#                     tmp += compare
+#                 compare = s[j:j+i]
+#                 count = 1
+#         if count != 1:
+#             tmp += str(count) + compare
+#         else:
+#             tmp += compare
+#         arr.append(len(tmp))
+#     return min(arr)
+
+# print(solution("aabbaccc"))
+
+# def solution(queue1, queue2):
+#     answer = 0
+#     count = 0
+#     num = (sum(queue1) + sum(queue2)) // 2
+#     from collections import deque
+#     queue1 = deque(queue1)
+#     queue2 = deque(queue2)
+#     limit = len(queue1) * 3
+#     while True:
+#         if sum(queue1) ==num and sum(queue2) == num:
+#             break
+#         elif sum(queue1) > sum(queue2):
+#             queue2.append(queue1.popleft())
+#             count += 1
+#         elif sum(queue1) < sum(queue2):
+#             queue1.append(queue2.popleft())
+#             count += 1
+        
+#         if count == limit:
+#             count = -1
+#             break
+                      
+#     return count
+
+# print(solution([3,2,7,2], [4,6,5,1]))
+
+# def solution(orders, course):
+#     from itertools import combinations
+#     from collections import Counter
+#     answer = []
+#     for i in course:
+#         arr = []
+#         for j in orders:
+#             arr += list(combinations(j, i))
+#         counter = Counter(arr)
+#         # print(counter)
+#         if len(counter) == 0:
+#             continue
+#         if max(counter.values()) == 1:
+#             continue
+#         for f in counter:
+#             if counter[f] == max(counter.values()):
+#                 answer.append(''.join(f))
+#     # answer = list(set(answer))
+#     print(answer)
             
-            
+    # for order in orders:
+    #     for i in range(1, len(order) + 1):
+    #         for j in combinations(order, i):
+    #             arr.append(''.join(j))
+    # arr = Counter(arr)
+    # arr = list(arr.items())
+    # arr.sort(key=lambda x : x[1], reverse=True)
+    # print(arr)
 #     return answer
 
-# # print(solution(3, ["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "Jeju", "Pangyo", "Seoul", "NewYork", "LA"]))
-# # print(solution(3, ["Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul"]))
-# # print(solution(2, ["Jeju", "Pangyo", "NewYork", "newyork"]))
-# # print(solution(2, ["a", "a", "a", "b", "b", "b", "c", "c", "c"]))
-# # print(solution(3, ['a', 'b', 'c', 'a']))
-# # print(solution(3, ['a', 'b', 'c', 'a', 'b']))
-# print(solution(3, ['a', 'b', 'c', 'a', 'b', 'd', 'c']))
+# print(solution(["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"], [2,3,4]))
 
 
 # from collections import deque
@@ -806,163 +963,15 @@
 
 # print(solution([1, 2, 3, 9, 10, 12], 7))
 
-# def solution(skill, skill_trees):
-#     answer = 0
-#     for tree in skill_trees:
-#         s = ''
-#         for i in tree:
-#             if i in skill:
-#                 s += i
-#         if skill[:len(s)] == s:
-#             answer += 1
-#     return answer
+def solution(skill, skill_trees):
+    answer = 0
+    for tree in skill_trees:
+        s = ''
+        for i in tree:
+            if i in skill:
+                s += i
+        if skill[:len(s)] == s:
+            answer += 1
+    return answer
 
-# print(solution('CBD', ["BACDE", "CBADF", "AECB", "BDA"]	))
-
-# def solution(n):
-#     graph = [[0] * i for i in range(1, n+1)]
-#     dx = [1, 0 ,-1]
-#     dy = [0, 1, -1]
-#     total = 0
-#     for i in range(n+1):
-#         total += i
-#     count = 1
-#     d = 0
-#     x, y =0, 0
-#     while count <= total:
-#         graph[x][y] = count
-#         count += 1
-#         nx = x + dx[d]
-#         ny = y + dy[d]
-#         if 0 <= nx < n and 0 <= ny < n and graph[nx][ny] == 0:
-#             x = nx
-#             y = ny
-#         else:
-#             d = (d+1) % 3
-#             x = x + dx[d]
-#             y = y + dy[d]
-#     arr = []
-#     for i in range(len(graph)):
-#         for j in range(len(graph[i])):
-#             arr.append(graph[i][j])
-#     print(arr)  
-# print(solution(5))
-
-
-# n, m = map(int, input().split())
-# r, c, d = map(int, input().split())
-# graph = [list(map(int, input().split())) for _ in range(n)]
-
-# # 북 동 남 서
-# dx = [-1, 0, 1, 0]
-# dy = [0, 1, 0, -1]
-
-# count = 1
-# graph[r][c] = 2
-# while True:
-#     flag = 0
-#     for i in range(4):
-#         d = (d + 3) % 4
-#         nx = r + dx[d]
-#         ny = c + dy[d]
-#         if 0 <= nx < n and 0 <= ny < m:
-#             if graph[nx][ny] == 0:
-#                 graph[nx][ny] = 2
-#                 count += 1
-#                 r, c = nx, ny
-#                 flag = 1
-#                 break
-        
-#     if flag == 0:
-#         if graph[r - dx[d]][c - dy[d]] == 1:
-#             print(count)
-#             break
-#         else:
-#             r, c = r - dx[d], c - dy[d]
-
-r, c, t = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(r)]
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
-air_clean = []
-for i in range(r):
-    for j in range(c):
-        if graph[i][j] == -1:
-            air_clean.append((i, j))
-def spary_dust():
-    arr = []
-    tmp_graph = [[0] * c for _ in range(r)]
-    for i in range(r):
-        for j in range(c):
-            if graph[i][j] != 0 and graph[i][j] != -1:
-                arr.append((i, j))
-    
-    for x, y in arr:
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if nx < 0 or nx >= r or ny < 0 or ny >= c:
-                continue
-            if graph[nx][ny] == -1:
-                continue
-            dust = graph[x][y] // 5
-            tmp_graph[nx][ny] += dust
-            tmp_graph[x][y] -= dust
-        nx, ny = 0, 0
-    
-    for i in range(r):
-        for j in range(c):
-            graph[i][j] += tmp_graph[i][j]
-
-
-def top_clean():
-    # 동 북 서 남
-    dx = [0, -1, 0, 1]
-    dy = [1, 0, -1, 0]
-    direct = 0
-    before = 0
-    x, y = air_clean[0][0], 1
-    while True:
-        nx = x + dx[direct]
-        ny = y + dy[direct]
-        if x == air_clean[0][0] and y == 0:
-            break
-        if nx < 0 or nx >= r or ny < 0 or ny >= c:
-            direct += 1
-            continue
-        graph[x][y], before = before, graph[x][y]
-        x = nx
-        y = ny
-    
-def bottom_clean():
-    # 동 남 서 북
-    dx = [0, 1, 0, -1]
-    dy = [1, 0, -1, 0]
-    direct = 0
-    before = 0
-    x, y = air_clean[1][0], 1
-    while True:
-        nx = x + dx[direct]
-        ny = y + dy[direct]
-        if x == air_clean[1][0] and y == 0:
-            break
-        if nx < 0 or nx >= r or ny < 0 or ny >= c:
-            direct += 1
-            continue
-        graph[x][y], before = before, graph[x][y]
-        x = nx
-        y = ny
-
-
-for _ in range(t):
-    spary_dust()
-    top_clean()
-    bottom_clean()
-
-answer = 0
-for i in range(r):
-    for j in range(c):
-        if graph[i][j] > 0:
-            answer += graph[i][j]
-
-print(answer)
+print(solution('CBD', ["BACDE", "CBADF", "AECB", "BDA"]	))
