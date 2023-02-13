@@ -3,7 +3,7 @@ import copy
 
 n, m = map(int, input().split())
 graph = [list(map(int, input().split())) for _ in range(n)]
-visited = [[False] * m for _ in range(n)]
+# visited = [[False] * m for _ in range(n)]
 
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
@@ -45,9 +45,9 @@ def backtracking(depth):
         for j in range(m):
             if graph[i][j] == 0:
                 graph[i][j] = 1
-                visited[i][j] = True
+                # visited[i][j] = True
                 backtracking(depth + 1)
-                visited[i][j] = False
+                # visited[i][j] = False
                 graph[i][j] = 0
                 
 backtracking(0)
