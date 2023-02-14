@@ -8,7 +8,7 @@ def calc():
         counter = [i for i in graph[i] if i != 0]
         counter = Counter(counter).items()
         counter = sorted(counter, key=lambda x: (x[1], x[0]))
-        graph[i].clear()
+        # graph[i].clear()
         graph[i] = []
         for x, y in counter:
             graph[i].append(x)
