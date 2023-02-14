@@ -1,41 +1,41 @@
+from collections import Counter
 r, c, k = map(int, input().split())
 graph = [list(map(int, input().split())) for _ in range(3)]
 
-from collections import Counter
-
-def rc():
-    max_len = 0
-    len_graph = len(graph)
-    for j in range(len_graph):
-        arr = [i for i in graph[j] if i != 0]
-        arr = Counter(arr).most_common()
-        arr = sorted(arr, key = lambda x : (x[1], x[0]))
-        graph[j] = []
-        for a, b in arr:
-            graph[j].append(a)
-            graph[j].append(b)
-        len_arr = len(arr)
-        if max_len < len_arr * 2:
-            max_len = len_arr * 2
-    for j in range(len_graph):
-        for _ in range(max_len - len(graph[j])):
-            graph[j].append(0)
-        graph[j] = graph[j][:100]
+def calc():
+    graph_len = 0
+    for i in range(len(graph)):
+        counter = [i for i in graph[i] if i != 0]
+        counter = Counter(counter).items()
+        counter = sorted(counter, key=lambda x: (x[1], x[0]))
+        graph[i].clear()
+        graph[i] = []
+        for x, y in counter:
+            graph[i].append(x)
+            graph[i].append(y)
+        graph_len = max(graph_len, len(graph[i]))
+    count = 0
+    while count < 100:
+        for i in range(len(graph)):
+            if len(graph[i]) != graph_len:
+                graph[i].append(0)
+        count += 1
+    for i in range(len(graph)):
+        graph[i] = graph[i][:100]
 
 for i in range(101):
     try:
-        if graph[r-1][c-1] == k:
+        if graph[r - 1][c - 1] == k:
             print(i)
             break
     except:
         pass
-
-    if len(graph) < len(graph[0]):
-        graph = list(zip(*graph))
-        rc()
-        graph = list(zip(*graph))
+    
+    if len(graph) >= len(graph[0]):
+        calc()
     else:
-        rc()
+        graph = list(zip(*graph))
+        calc()
+        graph = list(zip(*graph))
 else:
     print(-1)
-    
