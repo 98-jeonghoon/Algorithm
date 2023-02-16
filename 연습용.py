@@ -963,15 +963,267 @@
 
 # print(solution([1, 2, 3, 9, 10, 12], 7))
 
-def solution(skill, skill_trees):
-    answer = 0
-    for tree in skill_trees:
-        s = ''
-        for i in tree:
-            if i in skill:
-                s += i
-        if skill[:len(s)] == s:
-            answer += 1
-    return answer
+# def solution(skill, skill_trees):
+#     answer = 0
+#     for tree in skill_trees:
+#         s = ''
+#         for i in tree:
+#             if i in skill:
+#                 s += i
+#         if skill[:len(s)] == s:
+#             answer += 1
+#     return answer
 
-print(solution('CBD', ["BACDE", "CBADF", "AECB", "BDA"]	))
+# print(solution('CBD', ["BACDE", "CBADF", "AECB", "BDA"]	))
+
+# n, m = map(int, input().split())
+# graph = [list(map(int, input().split())) for _ in range(n)]
+# visited = [[False] * m for _ in range(n)]
+
+# dx = [-1, 1, 0, 0]
+# dy = [0, 0, -1, 1]
+
+# answer = -1e9
+
+# def dfs(depth, x, y, total):
+#     global answer
+    
+#     if depth == 4:
+#         answer = max(answer, total)
+#         return
+    
+#     for i in range(4):
+#         nx = x + dx[i]
+#         ny = y + dy[i]
+#         if 0 <= nx < n and 0 <= ny < m:
+#             if visited[nx][ny] == True:
+#                 continue
+#             visited[nx][ny] = True
+#             dfs(depth + 1, nx, ny, total + graph[nx][ny])
+#             visited[nx][ny] = False
+            
+# def purple(x, y):
+#     global answer
+#     for i in range(4):
+#         tmp = graph[x][y]
+#         for j in range(3):
+#             d = (i + j) % 4
+#             nx = x + dx[d]
+#             ny = y + dy[d]
+#             if nx < 0 or ny < 0 or nx >= n or ny >= m:
+#                 tmp = 0
+#                 break
+#             else:
+#                 tmp += graph[nx][ny]
+#         answer = max(answer, tmp)
+            
+
+# for i in range(n):
+#     for j in range(m):
+#         visited[i][j] = True
+#         dfs(1, i, j, graph[i][j])
+#         visited[i][j] = False
+#         purple(i, j)
+
+# print(answer)
+
+# from collections import deque
+# import copy
+# n, m = map(int, input().split())
+# graph = [list(map(int, input().split())) for _ in range(n)]
+
+# dx = [-1, 1, 0, 0]
+# dy = [0, 0, -1, 1]
+# answer = 0
+# def bfs():
+#     global answer
+#     queue = deque()
+#     tmp_graph = copy.deepcopy(graph)
+#     for i in range(n):
+#         for j in range(m):
+#             if tmp_graph[i][j] == 2:
+#                 queue.append((i, j))
+    
+#     while queue:
+#         x, y = queue.popleft()
+#         for i in range(4):
+#             nx = x + dx[i]
+#             ny = y + dy[i]
+            
+#             if nx < 0 or nx >= n or ny < 0 or ny >= m:
+#                 continue
+#             if tmp_graph[nx][ny] == 1:
+#                 continue
+#             if tmp_graph[nx][ny] == 0:
+#                 tmp_graph[nx][ny] = 2
+#                 queue.append((nx, ny))
+    
+#     cnt = 0
+#     for i in range(n):
+#         cnt += tmp_graph[i].count(0)
+    
+#     answer = max(answer, cnt)
+
+# def backtracking(depth):
+#     if depth == 3:
+#         bfs()
+#         return
+    
+#     for i in range(n):
+#         for j in range(m):
+#             if graph[i][j] == 0:
+#                 graph[i][j] = 1
+#                 backtracking(depth + 1)
+#                 graph[i][j] = 0
+                
+# backtracking(0)
+# print(answer)
+
+# 풀이 첫번째 solution 1
+
+# def solution(n):
+#     min_a_b_h = (0, 0, 0)
+#     min_area = 1e9
+#     for x in range(1, 51):
+#         for y in range(1, 51):
+#             for h in range(1, 51):
+#                 if x * y * h == n:
+#                     area = x * y + y * h + x * h
+#                     if area < min_area:
+#                         min_area = area
+#                         min_a_b_h = (x, y, h)
+#                     elif area == min_area:
+#                         if (x, y, h) < min_a_b_h:
+#                             min_a_b_h = (x, y, h)
+#     list(min_a_b_h).sort()
+#     return min_a_b_h
+
+# n = int(input())
+# x, y, h = solution(n)
+# print(x, y, h)
+
+# def solution(n):
+#     from itertools import combinations_with_replacement
+#     arr = [i for i in range(1, 51)]
+#     for i in combinations_with_replacement(arr, 3):
+#         print(i)
+        
+# solution(100)
+
+# from collections import Counter
+# r, c, k = map(int, input().split())
+# graph = [list(map(int, input().split())) for _ in range(3)]
+
+# def calc():
+#     graph_len = 0
+#     for i in range(len(graph)):
+#         counter = [i for i in graph[i] if i != 0]
+#         counter = Counter(counter).items()
+#         counter = sorted(counter, key=lambda x: (x[1], x[0]))
+#         graph[i].clear()
+#         graph[i] = []
+#         for x, y in counter:
+#             graph[i].append(x)
+#             graph[i].append(y)
+#         graph_len = max(graph_len, len(graph[i]))
+#     count = 0
+#     while count < 100:
+#         for i in range(len(graph)):
+#             if len(graph[i]) != graph_len:
+#                 graph[i].append(0)
+#         count += 1
+#     for i in range(len(graph)):
+#         graph[i] = graph[i][:100]
+
+# for i in range(101):
+#     try:
+#         if graph[r - 1][c - 1] == k:
+#             print(i)
+#             break
+#     except:
+#         pass
+    
+#     if len(graph) >= len(graph[0]):
+#         calc()
+#     else:
+#         graph = list(zip(*graph))
+#         calc()
+#         graph = list(zip(*graph))
+# else:
+#     print(-1)
+    
+# def solution(s):
+#     stack = []
+#     reverse_str = []
+#     word = ''
+#     reverse_word = ''
+#     for i in s:
+#         word += i
+#         if word.startswith('<') and word.endswith('>'):
+#             stack.append(word)
+#             word = ''
+#         elif not word.startswith('<'):
+#             reverse_word += i
+#             if word.endswith('<'):
+#                 reverse_str.append(reverse_word[:-1])
+#                 stack.append(reverse_word[:-1])
+#                 word = '<'
+#                 reverse_word = ''
+#     print(stack)
+#     print(reverse_str)
+                
+# print(solution('<i><b>123</b></i>'))
+# print(solution('<i><font style="color=red;">123</font></i>'))
+# print(solution('<p><i><b>123</b><font style=\'color:red\'>가<b>나다</b>라</font></i></p>'))
+
+# n = int(input())
+# graph = [list(map(int, input().split())) for _ in range(n)]
+# visited = [False] * (n + 1)
+
+# answer = 1e9
+# def backtracking(depth, idx):
+#     global answer
+#     if depth == (n // 2):
+#         start, link = 0, 0
+#         for i in range(n):
+#             for j in range(i + 1, n):
+#                 if visited[i] and visited[j]:
+#                     start += (graph[i][j] + graph[j][i])
+#                 elif not visited[i] and not visited[j]:
+#                     link += (graph[i][j] + graph[j][i])
+#         answer = min(answer, abs(start - link))
+#         return
+                
+#     for i in range(idx, n):
+#         if visited[i]:
+#             continue
+#         visited[i] = True
+#         backtracking(depth + 1, i + 1)
+#         visited[i] = False
+        
+# backtracking(0, 0)
+# print(answer)
+
+n, l, r = map(int, input().split())
+graph = [list(map(int, input().split())) for _ in range(n)]
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+count = 0
+
+def dfs(x, y, total):
+    global count
+    if x < 0 or y < 0 or x >= n or y >= n:
+        return
+    if l <= graph[x][y] <= r:
+        count += 1
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            dfs(nx, ny, total + graph[nx][ny])
+    graph[nx][ny] = total // count
+        
+for i in range(n):
+    for j in range(n):
+        if l <= graph[i][j] <= r:
+            dfs(i, j, 0)
