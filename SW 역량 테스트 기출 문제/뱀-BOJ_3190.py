@@ -1,48 +1,47 @@
 n = int(input())
-graph = [[0] * n for _ in range(n)]
 k = int(input())
+graph = [[0] * n for _ in range(n)]
+
 for _ in range(k):
-    a, b = map(int ,input().split())
-    graph[a-1][b-1] = 1
+    a, b = map(int, input().split())
+    graph[a- 1][b - 1] = 1
 
 l = int(input())
-dic = dict()
+move = []
 for _ in range(l):
-    sec, dir = input().split()
-    dic[int(sec)] = dir
+    sec, direct = input().split()
+    move.append((int(sec), direct))
+
+# 우측부터 시작
+#우 하 좌 상
+dx = [0, 1, 0, -1]
+dy = [1, 0, -1, 0]
 
 from collections import deque
 
-# 상 우 하 좌
-dy = [-1, 0, 1, 0]
-dx = [0, 1, 0, -1]
-
-def dir_change(direction, turn):
-    if turn == 'L':
-        direction = (direction - 1) % 4
+time = 0
+d, check = 0, 0
+x, y = 0, 0
+queue = deque()
+queue.append((x, y))
+while True:
+    time += 1
+    nx = x + dx[d]
+    ny = y + dy[d]
+    if nx < 0 or ny < 0 or nx >= n or ny >= n or (nx, ny) in queue:
+        break
+    queue.append((nx, ny))
+    if graph[nx][ny] == 0:
+        queue.popleft()
     else:
-        direction = (direction + 1) % 4
-    return direction
+        graph[nx][ny] = 0
 
-def start():
-    direction = 1
-    time = 1
-    x, y = 0, 0
-    queue = deque([[y, x]])
-    graph[y][x] = 2
-    while True:
-        y = y + dy[direction]
-        x = x + dx[direction]
-        if 0 <= y < n and 0 <= x < n and graph[y][x] != 2:
-            if not graph[y][x] == 1:
-                tmp_y, tmp_x = queue.popleft()
-                graph[tmp_y][tmp_x] = 0
-            graph[y][x] = 2
-            queue.append([y,x])
-            if time in dic.keys():
-                direction = dir_change(direction, dic[time])
-            time += 1
+    if time == move[check][0]:
+        if move[check][1] == 'L':
+            d = (d - 1) % 4
         else:
-            return print(time)
-        
-start()
+            d = (d + 1) % 4
+        if check + 1 < len(move):
+            check += 1
+    x, y = nx, ny
+print(time)
