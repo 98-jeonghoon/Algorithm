@@ -20,14 +20,15 @@
 # print(solution(4))
 
 def solution(n):
-    graph = [[0] * i for i in range(1, n+1)]
-    # 하, 우, 왼쪽으로 올라가는 대각선
     dx = [1, 0, -1]
     dy = [0, 1, -1]
-    x, y = 0, 0
-    total = sum(list(i for i in range(1, n+1)))
-    d = 0
+    graph = [[0] * n for _ in range(n)]
+    total = 0
+    for i in range(1, n + 1):
+        total += i
     count = 1
+    d = 0
+    x, y = 0, 0
     while count <= total:
         graph[x][y] = count
         count += 1
@@ -37,19 +38,15 @@ def solution(n):
             x = nx
             y = ny
         else:
-            d = (d+1) % 3
-            x += dx[d]
-            y += dy[d]
+            d = (d + 1) % 3
+            x = x + dx[d]
+            y = y + dy[d]
     arr = []
     for i in range(len(graph)):
         for j in range(len(graph[i])):
-            arr.append(graph[i][j])
-    print(arr)
-    return sum(graph, [])
-        
-    
-print(solution(4))
-
+            if graph[i][j] != 0:
+                arr.append(graph[i][j])
+    return arr
 
 
 
