@@ -1,22 +1,16 @@
-from collections import deque
-
 def solution(numbers, target):
+    n = len(numbers)
     answer = 0
-    queue = deque()
-    
-    length = len(numbers)
-    queue.append([-numbers[0], 0])
-    queue.append([+numbers[0], 0])
-    
-    while queue :
-        num, idx = queue.popleft()
-        if idx+1 == length :
-            if num == target:
+    def back_tracking(depth, result):
+        if depth == n:
+            if result == target:
+                nonlocal answer
                 answer += 1
-        else :
-            queue.append([num - numbers[idx + 1], idx + 1])
-            queue.append([num + numbers[idx + 1], idx + 1])
-    
+        else:
+            back_tracking(depth + 1, result + numbers[depth])
+            back_tracking(depth + 1, result - numbers[depth])
+            
+    back_tracking(0, 0)
     return answer
 
-solution([4,1,2,1], 4)
+print(solution([1, 1, 1, 1, 1], 3))
