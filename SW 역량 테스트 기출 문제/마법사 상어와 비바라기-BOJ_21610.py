@@ -1,4 +1,5 @@
-## 1트 실패
+## 1트 실패 (쓸데 없는 copy + 구름을 동시에 옮겨야 하는데 하나씩 옮기고 계산해서 틀림)
+
 # import copy
 # n, m = map(int, input().split())
 # graph = [list(map(int, input().split())) for _ in range(n)]
