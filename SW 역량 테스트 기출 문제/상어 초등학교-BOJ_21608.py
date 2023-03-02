@@ -28,9 +28,9 @@ for order in range(n**2):
     tmp.sort(key=lambda x:(-x[0], -x[1], x[2], x[3]))
     graph[tmp[0][2]][tmp[0][3]] = student[0]
 
-print(students)
+
 students.sort()
-print(students)
+
 answer = 0
 for x in range(n):
     for y in range(n):
