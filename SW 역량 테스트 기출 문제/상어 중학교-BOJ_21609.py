@@ -1,70 +1,88 @@
 # # 시계방향으로 회전하는 코드 list(map(list, zip(*arr[::-1])))
 # # 시계 반대방향으로 회전하는 코드 list(map(list, zip(*arr)))[::-1]
 # # 1트 실패 -> 조건 1번에 같은 블록 그룹이 여러개일때를 처리 해주지 못해서 막혔음.
+# # 2트 성공 -> 무지개 블록과 일반 블록을 따로 구해줌
 
-# from collections import deque
+from collections import deque
 
-# n, m = map(int, input().split())
-# graph = [list(map(int, input().split())) for _ in range(n)]
+n, m = map(int, input().split())
+graph = [list(map(int, input().split())) for _ in range(n)]
 
-# dx = [-1, 1, 0, 0]
-# dy = [0, 0, -1, 1]
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
-# max_area = -1e9
-# def bfs(x, y, now):
-#     global max_area
-#     queue = deque()
-#     tmp_arr = []
-#     tmp_arr.append((x, y))
-#     queue.append((x, y))
-#     visited = [[False] * n for _ in range(n)]
-#     visited[x][y] = True
-#     area = 1
-#     while queue:
-#         x, y = queue.popleft()
-#         for i in range(4):
-#             nx = x + dx[i]
-#             ny = y + dy[i]
-#             if 0 <= nx < n and 0 <= ny < n and graph[nx][ny] != -1 and visited[nx][ny] == False:
-#                 if graph[nx][ny] == 0 or graph[nx][ny] == now:
-#                     queue.append((nx, ny))
-#                     tmp_arr.append((nx, ny))
-#                     area += 1
-#                     visited[nx][ny] = True
-#     if max_area < area:
-#         max_area = area
-#         if max_area != 1:
-#             return tmp_arr
+def bfs(x, y, now):
+    queue = deque()
+    queue.append((x, y))
+    block_cnt, rainbow_cnt = 1, 0
+    block, rainbow = [[x, y]], []
+    while queue:
+        x, y = queue.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            
+            # 일반 블록
+            if 0 <= nx < n and 0 <= ny < n and visited[nx][ny] == False and graph[nx][ny] == now:
+                visited[nx][ny] = True
+                queue.append((nx, ny))
+                block_cnt += 1
+                block.append([nx, ny])
+            
+            # 무지개 블록
+            elif 0 <= nx < n and 0 <= ny < n and visited[nx][ny] == False and graph[nx][ny] == 0:
+                visited[nx][ny] = True
+                queue.append((nx, ny))
+                block_cnt += 1
+                rainbow_cnt += 1
+                rainbow.append([nx, ny])
+    for x, y in rainbow:
+        visited[x][y] = False
+    
+    return [block_cnt, rainbow_cnt, block + rainbow]
 
-# max_count = -1e9
-# answer = 0
-# remove = 0
-# for i in range(n):
-#     for j in range(n):
-#         count = 0
-#         block = bfs(i, j, graph[i][j])
-#         if block != None:
-#             count = len(block)
-#             if count > max_count:
-#                 remove = block
+def remove(block):
+    for x, y in block:
+        graph[x][y] = -2
         
-# if remove:
-#     for x, y in remove:
-#         graph[x][y] = -2
-#     answer += len(remove) ** 2
+def gravity():
+    for i in range(n-2, -1, -1):
+        for j in range(n):
+            if graph[i][j] > -1:
+                tmp = i
+                while True:
+                    if 0<=tmp+1<n and graph[tmp+1][j] == -2:
+                        graph[tmp+1][j] = graph[tmp][j]
+                        graph[tmp][j] = -2
+                        tmp += 1
+                    else:
+                        break
 
-# def gravity():
-#     while True:
-#         move = 0    
-#         for i in range(n - 1):
-#             for j in range(n):
-#                 if graph[i][j] != -1 and graph[i+1][j] == -2:
-#                     graph[i+1][j] = graph[i][j]
-#                     graph[i][j] = -2
-#                     move = 1
-#         if move == 0:
-#             break
+def rotate_90(graph):
+    graph = list(map(list, zip(*graph)))[::-1]
+    return graph
 
-# gravity()
-# for i in graph:
-#     print(i)
+answer = 0
+
+while True:
+    blocks = []
+    visited = [[False] * n for _ in range(n)]
+    for i in range(n):
+        for j in range(n):
+            if graph[i][j] > 0 and not visited[i][j]:
+                visited[i][j] = 1
+                block_info = bfs(i, j, graph[i][j])
+                if block_info[0] >= 2:
+                    blocks.append(block_info)
+    
+    blocks.sort(reverse=True)
+    
+    if not blocks:
+        break
+    remove(blocks[0][2])
+    answer += blocks[0][0] ** 2
+    gravity()
+    graph = rotate_90(graph)
+    gravity()
+    
+print(answer)
