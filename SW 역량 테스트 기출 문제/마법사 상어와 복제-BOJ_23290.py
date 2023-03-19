@@ -25,7 +25,7 @@ def move_fish():
             while temp_graph[x][y]:
                 d = temp_graph[x][y].pop()
                 for i in range(d, d-8, -1):
-                    i %= 8
+                    i = i % 8
                     nx = x + fish_dx[i]
                     ny = y + fish_dy[i]
                     if (nx, ny) != shark and 0 <= nx < 4 and 0 <= ny < 4 and not smell[nx][ny]:
