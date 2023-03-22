@@ -1,0 +1,26 @@
+n, m = map(int, input().split())
+arr = []
+for _ in range(n):
+    arr.append(int(input()))
+
+arr.sort()
+
+# 최소 시간
+start = min(arr)
+# 최대 걸리는 시간
+end = max(arr) * m
+
+while start <= end:
+    mid = (start + end) // 2
+    total = 0
+
+    for i in arr:
+        total += mid // i
+    
+    if total >= m:
+        end = mid - 1
+        answer = mid
+    else:
+        start = mid + 1
+
+print(answer)
