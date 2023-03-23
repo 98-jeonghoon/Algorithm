@@ -1,148 +1,146 @@
 n, m = map(int, input().split())
 graph = [list(map(int, input().split())) for _ in range(n)]
-
-dx = [0, -1, 1, 0, 0]
-dy = [0, 0, 0, -1, 1]
-result = [0] * 3
 magic = []
-
+result = [0] * 3
 for _ in range(m):
     d, s = map(int, input().split())
     magic.append((d, s))
 
-def destroy(d, s):
-    global graph, n
-    x, y = (n - 1) // 2, (n - 1) // 2
+def destory(d, s):
     dx = [0, -1, 1, 0, 0]
     dy = [0, 0, 0, -1, 1]
     
+    x, y = (n - 1) // 2, (n - 1) // 2
     for i in range(1, s + 1):
         nx = x + dx[d] * i
         ny = y + dy[d] * i
         
         if nx < 0 or ny < 0 or nx >= n or ny >= n:
-            break
+            continue
+
+        # 파괴
         graph[nx][ny] = 0
-    
+
 def change_1D():
     init_graph = []
     x, y = (n - 1) // 2, (n - 1) // 2
-    tornado_dx = [0, 1, 0, -1]
-    tornado_dy = [-1, 0, 1, 0]
+    dx = [0, 1, 0, -1]
+    dy = [-1, 0, 1, 0]
     direct, move_count = 0, 0
-    move = 1
+    dist = 1
+    
     while True:
         move_count += 1
-        for _ in range(move):
-            nx = x + tornado_dx[direct]
-            ny = y + tornado_dy[direct]
+        for i in range(dist):
+            nx = x + dx[direct]
+            ny = y + dy[direct]
+
             if (nx, ny) == (0, -1):
                 return init_graph
+            
             init_graph.append(graph[nx][ny])
             x, y = nx, ny
+        
         if move_count == 2:
-            move += 1
+            dist += 1
             move_count = 0
         direct = (direct + 1) % 4
 
-def remove_blank(init_graph):
+def move(init_graph):
     return [init_graph[i] for i in range(len(init_graph)) if init_graph[i] != 0]
 
-
-def explode(arr):
-    global result
-    
-    if not arr:
-        return [], False
-    
-    now_ball = arr[0]
+def explore(init_graph):
+    now_ball = init_graph[0]
     count = 1
     check_remove = False
     
-    for i in range(1, len(arr)):
-        if arr[i] == now_ball:
+    if not init_graph:
+        return [], check_remove
+
+    for i in range(1, len(init_graph)):
+        if init_graph[i] == now_ball:
             count += 1
         else:
-            # 터지지 않을경우
-            if count < 4:
-                count = 1
-                now_ball = arr[i]
-            # 터질경우
-            else:
+            if count >= 4:
                 for j in range(1, count + 1):
-                    arr[i - j] = 0
+                    init_graph[i - j] = 0
                 result[now_ball - 1] += count
                 check_remove = True
                 count = 1
-                now_ball = arr[i]
+                now_ball = init_graph[i]
+            else:
+                count = 1
+                now_ball = init_graph[i]
+    
     if count >= 4:
+        for i in range(1, count + 1):
+            init_graph[len(init_graph) - i] = 0
         check_remove = True
-        for j in range(1, count + 1):
-            arr[len(arr) - j] = 0
         result[now_ball - 1] += count
     
-    return arr, check_remove
-
-def grouping(arr):
-    if not arr:
+    return init_graph, check_remove
+                
+def grouping(init_graph):
+    if not init_graph:
         return []
     
-    new_arr = []
-    now_ball = arr[0]
+    new_init_graph = []
+    now_ball = init_graph[0]
     count = 1
-    
-    for i in range(1, len(arr)):
-        if arr[i] == now_ball:
+
+    for i in range(1, len(init_graph)):
+        if init_graph[i] == now_ball:
             count += 1
         else:
-            new_arr.append(count)
-            new_arr.append(now_ball)
+            new_init_graph.append(count)
+            new_init_graph.append(now_ball)
             count = 1
-            now_ball = arr[i]
-    new_arr.append(count)
-    new_arr.append(now_ball)
-    return new_arr
+            now_ball = init_graph[i]
+    new_init_graph.append(count)
+    new_init_graph.append(now_ball)
+    return new_init_graph
 
-def change_2D(arr):
+def change_2D(init_graph):
     new_graph = [[0] * n for _ in range(n)]
-    if not arr:
+
+    if not init_graph:
         return new_graph
     
-    tornado_dx = [0, 1, 0, -1]
-    tornado_dy = [-1, 0, 1, 0]
     x, y = (n - 1) // 2, (n - 1) // 2
+    dx = [0, 1, 0, -1]
+    dy = [-1, 0, 1, 0]
     direct, move_count = 0, 0
-    move = 1
-    arr_idx = 0
+    count = 0
+    dist = 1
+    
     while True:
         move_count += 1
-        for _ in range(move):
-            nx = x + tornado_dx[direct]
-            ny = y + tornado_dy[direct]
+        for i in range(dist):
+            nx = x + dx[direct]
+            ny = y + dy[direct]
+
             if (nx, ny) == (0, -1):
                 return new_graph
-            new_graph[nx][ny] = arr[arr_idx]
-            arr_idx += 1
-            if arr_idx >= len(arr):
+            
+            new_graph[nx][ny] = init_graph[count]
+            count += 1
+            if len(init_graph) <= count:
                 return new_graph
             x, y = nx, ny
         if move_count == 2:
-            move += 1
+            dist += 1
             move_count = 0
         direct = (direct + 1) % 4
 
-def solution():
-    global result, m, graph, magic
-    for i in range(m):
-        destroy(magic[i][0], magic[i][1])
-        arr = change_1D()
-        arr = remove_blank(arr)
-        while arr:
-            arr, check_remove = explode(arr)
-            if not check_remove:
-                break
-            arr = remove_blank(arr)
-        graph = change_2D(grouping(arr))
-    print(result[0] + 2 * result[1] + 3 * result[2])
+for i in range(m):
+    destory(magic[i][0], magic[i][1])
+    init_graph = change_1D()
+    init_graph = move(init_graph)
+    while init_graph:
+        init_graph, check_remove = explore(init_graph)
+        if not check_remove:
+            break
+        init_graph = move(init_graph)
+    graph = change_2D(grouping(init_graph))
 
-solution()
+print(result[0] + result[1] * 2 + result[2] * 3)
