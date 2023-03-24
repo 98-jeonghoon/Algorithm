@@ -8,6 +8,7 @@ dy = [0, 0, -1, 1]
 for _ in range(n**2):
     students.append((list(map(int, input().split()))))
     
+print(students)
 for order in range(n**2):
     student = students[order]
     tmp = []

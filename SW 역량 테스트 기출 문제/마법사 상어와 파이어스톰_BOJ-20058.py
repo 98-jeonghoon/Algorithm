@@ -1,21 +1,19 @@
 n, q = map(int, input().split())
 n = 2 ** n
-
 graph = [list(map(int, input().split())) for _ in range(n)]
-l_arr = list(map(int, input().split()))
-    
-# 우 하 좌 상 -> 시계방향
-dx = [0, 1, 0, -1]
-dy = [1, 0, -1 ,0]
+l = list(map(int, input().split()))
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
 def rotate_graph(graph, l):
     l = 2 ** l
-    tmp_graph = [[0]* n for _ in range(n)]    
+    tmp_graph = [[0] * n for _ in range(n)]
     for x in range(0, n, l):
         for y in range(0, n, l):
-            for i in range(l):
-                for j in range(l):
-                    tmp_graph[x + i][y + j] = graph[x + l - 1 - j][y + i]
+            for i in range(0, l):
+                for j in range(0, l):
+                    tmp_graph[x + j][y + l - 1 - i] = graph[x + i][y + j]
     return tmp_graph
 
 def check_ice(graph):
@@ -35,13 +33,12 @@ def check_ice(graph):
                 tmp_graph[x][y] = graph[x][y]
     return tmp_graph
 
-for i in range(len(l_arr)):
-    graph = rotate_graph(graph, l_arr.pop(0))
+for _ in range(q):
+    graph = rotate_graph(graph, l.pop(0))
     graph = check_ice(graph)
     
-from collections import deque
-
 def bfs():
+    from collections import deque
     visited = [[False] * n for _ in range(n)]
     sum_ice = 0
     max_area = -1e9
