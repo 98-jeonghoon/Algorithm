@@ -74,9 +74,10 @@ while True:
                 block_info = bfs(i, j, graph[i][j])
                 if block_info[0] >= 2:
                     blocks.append(block_info)
-    
-    blocks.sort(reverse=True)
-    
+    blocks = sorted(blocks, key= lambda x : (-x[0], -x[1], -x[2][0][0], -x[2][0][1]))
+    print(blocks)
+    print()
+
     if not blocks:
         break
     remove(blocks[0][2])

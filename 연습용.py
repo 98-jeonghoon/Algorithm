@@ -218,58 +218,148 @@
 # print(answer)
 
 
-n, m, k = map(int, input().split())
-graph = [[[] * n for _ in range(n)] for _ in range(n)]
-fire_ball = []
+# n, m, k = map(int, input().split())
+# graph = [[[] * n for _ in range(n)] for _ in range(n)]
+# fire_ball = []
 
-dx = [-1, -1, 0, 1, 1, 1, 0, -1]
-dy = [0, 1, 1, 1, 0, -1, -1, -1]
+# dx = [-1, -1, 0, 1, 1, 1, 0, -1]
+# dy = [0, 1, 1, 1, 0, -1, -1, -1]
 
-for _ in range(m):
-    r, c, m, s, d = map(int, input().split())
-    fire_ball.append((r - 1, c - 1, m, s, d))
+# for _ in range(m):
+#     r, c, m, s, d = map(int, input().split())
+#     fire_ball.append((r - 1, c - 1, m, s, d))
 
 
 
-def print_graph():
-    global graph
-    for i in graph:
-        print(i)
+# def print_graph():
+#     global graph
+#     for i in graph:
+#         print(i)
 
-# print_graph()
+# # print_graph()
 
-for _ in range(k):
-    while fire_ball:
-        r, c, m, s, d = fire_ball.pop()
-        nr = (r + s * dx[d]) % n
-        nc = (c + s * dy[d]) % n
-        graph[nr][nc].append((m, s, d))
+# for _ in range(k):
+#     while fire_ball:
+#         r, c, m, s, d = fire_ball.pop()
+#         nr = (r + s * dx[d]) % n
+#         nc = (c + s * dy[d]) % n
+#         graph[nr][nc].append((m, s, d))
 
-    for x in range(n):
-        for y in range(n):
-            if len(graph[x][y]) >= 2:
-                sum_m, sum_s, count, eval, odd = 0, 0, len(graph[x][y]), 0, 0
-                while graph[x][y]:
-                    m, s, d = graph[x][y].pop()
-                    sum_m += m
-                    sum_s += s
-                    if d % 2 == 0:
-                        eval += 1
+#     for x in range(n):
+#         for y in range(n):
+#             if len(graph[x][y]) >= 2:
+#                 sum_m, sum_s, count, eval, odd = 0, 0, len(graph[x][y]), 0, 0
+#                 while graph[x][y]:
+#                     m, s, d = graph[x][y].pop()
+#                     sum_m += m
+#                     sum_s += s
+#                     if d % 2 == 0:
+#                         eval += 1
+#                     else:
+#                         odd += 1
+#                 if count == eval or count == odd:
+#                     direct = [0, 2, 4, 6]
+#                 else:
+#                     direct = [1, 3, 5, 7]
+#                 if sum_m // 5:
+#                     for d in direct:
+#                         fire_ball.append((r, c, sum_m // 5, sum_s // count, d))
+#             if len(graph[x][y]) == 1:
+#                 mm, ss, dd = graph[x][y].pop()
+#                 fire_ball.append((x, y, mm, ss, dd))
+
+# answer = 0
+
+# for i in fire_ball:
+#     answer += i[2]
+# print(answer)
+
+# 상어 중학교
+import copy
+from collections import deque
+n, m = map(int, input().split())
+graph = [list(map(int, input().split())) for _ in range(n)]
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+## 무지개 블록이랑 그냥 일반 블록이랑 따로 구해줘야지 나중에 처리하기가 쉬워짐
+
+def find_block(x, y, block):
+    queue = deque()
+    queue.append((x, y))
+    block_cnt, rainbow_cnt = 1, 0
+    block, rainbow = [[x, y]] , []
+    
+
+    while queue:
+        x, y = queue.popleft()
+
+        for d in range(4):
+            nx = x + dx[d]
+            ny = y + dy[d]
+            
+            # 일반 블록일때
+            if 0 <= nx < n and 0 <= ny < n and visited[nx][ny] == False and graph[nx][ny] == block:
+                    visited[nx][ny] = True
+                    queue.append((nx, ny))
+                    block_cnt += 1
+                    block.append([nx, ny])
+            
+            # 무지개 블록일때
+            elif 0 <= nx < n and 0 <= ny < n and visited[nx][ny] == False and graph[nx][ny] == 0:
+                    visited[nx][ny] = True
+                    queue.append((nx, ny))
+                    rainbow_cnt += 1
+                    block_cnt += 1
+                    rainbow.append([nx, ny])
+    for x, y in rainbow:
+        visited[x][y] = False
+    
+    return [block_cnt, rainbow_cnt, block + rainbow]
+
+
+def remove_block(block):
+    for x, y in block:
+        graph[x][y] = -2
+
+def gravity():
+    for i in range(n - 2, -1, -1):
+        for j in range(n):
+            if graph[i][j] > -1:
+                tmp = i
+                while True:
+                    if 0 <= tmp + 1 < n and graph[tmp + 1][j] == -2:
+                        graph[tmp + 1][j] = graph[tmp][j]
+                        graph[tmp][j] = -2
+                        tmp += 1
                     else:
-                        odd += 1
-                if count == eval or count == odd:
-                    direct = [0, 2, 4, 6]
-                else:
-                    direct = [1, 3, 5, 7]
-                if sum_m // 5:
-                    for d in direct:
-                        fire_ball.append((r, c, sum_m // 5, sum_s // count, d))
-            if len(graph[x][y]) == 1:
-                mm, ss, dd = graph[x][y].pop()
-                fire_ball.append((x, y, mm, ss, dd))
+                        break
+
+def rotate_reverse_90(graph):
+    graph = list(map(list, zip(*graph)))[::-1]
+    return graph
 
 answer = 0
+while True:
+    block = []
+    visited = [[False] * n for _ in range(n)]
+    for x in range(n):
+        for y in range(n):
+            if graph[x][y] > 0 and not visited[x][y] == False:
+                    visited[x][y] = True
+                    block_info = find_block(x, y, graph[x][y])
+                    if block_info[0] >= 2:
+                        block.append(block_info)
+    block = sorted(block, key= lambda x : (-x[0], -x[1], -x[2][0][0], -x[2][0][1]))
+    print(block)
+    print()
+    if not block:
+        break
 
-for i in fire_ball:
-    answer += i[2]
+    remove_block(block[0][2])
+    answer += block[0][0] ** 2
+    gravity()
+    graph = rotate_reverse_90(graph)
+    gravity()
+
 print(answer)
