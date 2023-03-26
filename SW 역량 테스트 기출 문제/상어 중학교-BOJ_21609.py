@@ -46,7 +46,7 @@ def remove(block):
         graph[x][y] = -2
         
 def gravity():
-    for i in range(n-2, -1, -1):
+    for i in range(n-1, -1, -1):
         for j in range(n):
             if graph[i][j] > -1:
                 tmp = i
@@ -75,8 +75,8 @@ while True:
                 if block_info[0] >= 2:
                     blocks.append(block_info)
     blocks = sorted(blocks, key= lambda x : (-x[0], -x[1], -x[2][0][0], -x[2][0][1]))
-    print(blocks)
-    print()
+    # print(blocks)
+    # print()
 
     if not blocks:
         break
