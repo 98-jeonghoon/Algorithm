@@ -59,7 +59,7 @@ def move(dir, graph):
     # 오른쪽
     else:
         for x in range(n):
-            pointer = 0
+            pointer = n - 1
             for y in range(n - 2, -1, -1):
                 if graph[x][y]:
                     tmp = graph[x][y]
