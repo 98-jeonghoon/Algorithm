@@ -29,12 +29,12 @@ def score():
             for d in range(4):
                 nx = i + dx[d]
                 ny = j + dy[d]
-                if 0 <= nx < n and 0 <= ny < n:
-                    if group[nx][ny] != group[i][j]:
-                        g_x, g_y = group[i][j], group[nx][ny]
-                        g_x_num, g_y_num = graph[i][j], graph[nx][ny]
-                        g_x_count, g_y_count =group_cnt[g_x], group_cnt[g_y]
-                        count += (g_x_count + g_y_count) * g_x_num * g_y_num
+                if 0 <= nx < n and 0 <= ny < n and group[nx][ny] != group[i][j]:
+                    print(i, j, nx ,ny)
+                    g_x, g_y = group[i][j], group[nx][ny]
+                    g_x_num, g_y_num = graph[i][j], graph[nx][ny]
+                    g_x_count, g_y_count =group_cnt[g_x], group_cnt[g_y]
+                    count += (g_x_count + g_y_count) * g_x_num * g_y_num
     return count // 2
 
 def rotate_square(sx, sy, square_n, new_graph):
@@ -68,7 +68,7 @@ def rotate(graph):
 
 answer = 0
 
-for _ in range(4):
+for _ in range(1):
     group = [[0] * n for _ in range(n)]
     group_cnt = [0] * (n * n + 1)
     group_num = 0

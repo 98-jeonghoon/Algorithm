@@ -3,7 +3,7 @@ arr = []
 visited = [False] * (n+1)
 def backtracking(start):
     if len(arr) == m:
-        print(' '.join(map(str, arr)))
+        print(arr)
         return
         
     for i in range(1, n+1):
