@@ -1,110 +1,102 @@
 n, m, k = map(int, input().split())
+graph = [list(map(int, input().split())) for _ in range(n)]
 gun = [[[] for _ in range(n)] for _ in range(n)]
-
-EMPTY = (-1, -1, -1, -1, -1, -1)
+player_gun = [0] * m
 for i in range(n):
-    num = list(map(int, input().split()))
     for j in range(n):
-        if num[j] != 0:
-            gun[i][j].append(num[j])
+        if graph[i][j]:
+            gun[i][j].append(graph[i][j])
 
-players = []
+player_dp = []
+player_pos = []
+score = [0] * m
+for _ in range(m):
+    x, y, d, s = map(int, input().split())
+    player_pos.append((x - 1, y - 1))
+    player_dp.append([d, s])
 dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
 
-score = [0] * m
-for i in range(m):
-    x, y, d, s = map(int, input().split())
-    players.append((i, x - 1, y - 1, d, s, 0))
-
-def in_range(x, y):
-    return 0 <= x < n and 0 <= y < n
-
-def find_player(pos):
-    for i in range(m):
-        x, y = players[i][1], players[i][2]
-        if pos == (x ,y):
-            return players[i]
-    return EMPTY
-
-def next_move(x, y, d):
-    nx = x + dx[d]
-    ny = y + dy[d]
-
-    if not in_range(nx, ny):
-        if d < 2:
-            d = d + 2
+def change_gun(nx, ny, idx):
+    if gun[nx][ny] == []:
+        return
+    else:
+        if player_gun[idx] == 0:
+            gun[nx][ny].sort()
+            now_gun = gun[nx][ny].pop()
+            player_gun[idx] = now_gun
         else:
-            d = d - 2
+            gun[nx][ny].append(player_gun[idx])
+            gun[nx][ny].sort()
+            now_gun = gun[nx][ny].pop()
+            player_gun[idx] = now_gun
+
+def put_down_gun(loser):
+    x, y = player_pos[loser]
+    if player_gun[loser] == 0:
+        return
+    else:
+        gun[x][y].append(player_gun[loser])
+        player_gun[loser] = 0
+        
+def fight(i, idx):
+    if player_dp[i][1] + player_gun[i] > player_dp[idx][1] + player_gun[idx]:
+        winner, loser = i, idx
+    elif player_dp[i][1] + player_gun[i] < player_dp[idx][1] + player_gun[idx]:
+        winner, loser = idx, i
+    else:
+        if player_dp[i][1] > player_dp[idx][1]:
+            winner, loser = i, idx
+        else:
+            winner, loser = idx, i
+
+    score[winner] += abs((player_dp[i][1] + player_gun[i]) - (player_dp[idx][1] + player_gun[idx]))
+
+    put_down_gun(loser)
+
+    # looser move
+    x, y = player_pos[loser]
+    d = player_dp[loser][0]
+    for i in range(4):
         nx = x + dx[d]
         ny = y + dy[d]
-    
-    return (nx, ny, d)
-
-def update(p):
-    num, x, y, d, s, a = p
-
-    for i in range(m):
-        num1, x1, y1, d1, s1, a1 = players[i]
-        if num1 == num:
-            players[i] = p
-            break
-
-def move(p, pos):
-    num, x, y, d, s, a = p
-    nx, ny = pos
-
-    gun[nx][ny].append(a)
-    gun[nx][ny].sort(reverse=True)
-    a = gun[nx][ny][0]
-    gun[nx][ny].pop(0)
-
-    p = (num, nx, ny, d, s, a)
-    update(p)
-
-
-def lose_user_move(p):
-    num, x, y, d, s, a =p
-    gun[x][y].append(a)
-    for i in range(4):
-        direct = (d + i) % 4
-        nx = x + dx[direct]
-        ny = y + dy[direct]
-        if in_range(nx, ny) and find_player((nx, ny)) == EMPTY:
-            p = (num, x, y, direct, s, 0)
-            move(p, (nx, ny))
-            break
-    
-def duel(p1, p2, pos):
-    num1, x1, y1, d1, s1, a1 = p1
-    num2, x2, y2, d2, s2, a2 = p2
-
-    if (s1 + a1, s1) > (s2 + a2, s2):
-        score[num1] += (s1 + a1) - (s2 + a2)
-        lose_user_move(p2)
-        move(p1, pos)
-    else:
-        score[num2] += (s2 + a2) - (s1 + a1)
-        lose_user_move(p1)
-        move(p2, pos)
-
-def simulate():
-    for i in range(m):
-        num, x, y, d, s, a = players[i]
-        nx, ny, ndir = next_move(x, y, d)
-
-        next_player = find_player((nx, ny))
-
-        curr_player = (num, nx, ny, ndir, s, a)
-        update(curr_player)
-
-        if next_player == EMPTY:
-            move(curr_player, (nx, ny))
+        if nx < 0 or ny < 0 or nx >= n or ny >= n:
+            d = (d + 1) % 4
+        elif (nx, ny) in player_pos:
+            d = (d + 1) % 4
         else:
-            duel(curr_player, next_player, (nx, ny))
+            player_pos[loser] = (nx, ny)
+            player_dp[loser][0] = d
+            change_gun(nx, ny, loser)
+            break
+    x, y = player_pos[winner]
+    change_gun(x, y, winner)
+
+def player_move():
+    for i in range(len(player_pos)):
+        x, y = player_pos[i]
+        d = player_dp[i][0]
+        nx = x + dx[d]
+        ny = y + dy[d]
+        if nx < 0 or ny < 0 or nx >= n or ny >= n:
+            if d < 2:
+                d = d + 2
+            else:
+                d = d - 2
+            nx = x + dx[d]
+            ny = y + dy[d]
+        if (nx, ny) in player_pos:
+            idx = player_pos.index((nx, ny))
+            player_pos[i] = (nx, ny)
+            player_dp[i][0] = d
+            fight(i, idx)
+        else:
+            player_pos[i] = (nx, ny)
+            player_dp[i][0] = d
+            change_gun(nx, ny, i)
 
 for i in range(k):
-    simulate()
+    player_move()
 
-for point in score:
-    print(point, end=' ')
+for i in score:
+    print(i, end=' ')
