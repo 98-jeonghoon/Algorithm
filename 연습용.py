@@ -1,365 +1,285 @@
-# # 시간초과 코드 O(n^2)
-# n = int(input())
-# work = list(map(int, input().split()))
-# not_work = list(map(int, input().split()))
-# answer = 0
-# for i in range(n):
-#     calc = sum(work[i:]) + sum(not_work[:i])
-#     calc2 = sum(not_work[i:]) + sum(work[:i])
-#     add = max(calc2, calc)
-#     answer = max(answer, add)
+# def solution(x, y, n):
+#     answer = 0
+#     INF = int(1e9)
+#     dp = [INF] * (y + 1)
+#     dp[x] = 0
+    
+#     for i in range(x, y + 1):
+#         if i + n <= y:
+#             dp[i + n] = min(dp[i + n], dp[i] + 1)
+#         if i * 2 <= y:
+#             dp[i * 2] = min(dp[i * 2], dp[i] + 1)
+#         if i * 3 <= y:
+#             dp[i * 3] = min(dp[i * 3], dp[i] + 1)
 
-# print(answer)
+#     if dp[y] == INF:
+#         return -1
+    
+#     return dp[y]
 
+# print(solution(10, 40, 5))
 
-# # solve 코드 O(n)
-# n = int(input())
-# work = list(map(int, input().split()))
-# not_work = list(map(int, input().split()))
+# def solution(numbers, k):
+#     answer = ''
+#     stack = []
 
+#     for number in numbers:
+#         while stack and k > 0 and stack[-1] < number:
+#             stack.pop()
+#             k -= 1
+#         stack.append(number)
+#     if k != 0:
+#         stack = stack[:-k]
+#     for i in stack:
+#         answer += i
+#     print(answer)
+#     return answer
 
-# cum_work = [0] * (n+1)
-# cum_not_work = [0] * (n+1)
-# for i in range(n):
-#     cum_work[i+1] = cum_work[i] + work[i]
-#     cum_not_work[i+1] = cum_not_work[i] + not_work[i]
+# solution('1924', 2)
 
-# answer = 0
-# for i in range(n+1):
-#     calc = cum_work[i] + cum_not_work[n] - cum_not_work[i]
-#     calc2 = cum_not_work[i] + cum_work[n] - cum_work[i]
-#     add = max(calc2, calc)
-#     answer = max(answer, add)
+# solution('1231234', 3)
 
-# print(answer)
+# def solution(numbers):
+#     from itertools import permutations
+#     answer = 0
+#     arr = []
+#     for i in range(1, len(numbers) + 1):
+#         for j in list(permutations(numbers, i)):
+#            arr.append(''.join(j))
 
-# import copy
-# n, m = map(int, input().split())
-# graph = [list(map(int, input().split())) for _ in range(n)]
+#     def prime(x):
+#         import math
+#         for i in range(2, int(math.sqrt(x)) + 1):
+#             if x % i == 0:
+#                 return False
+#         return True
+#     arr = list(set(list(map(int, arr))))
+#     print(arr)
+#     for i in arr:
+#         if int(i) == 0 or int(i) == 1:
+#             continue
+#         if prime(int(i)):
+#             answer += 1
+#     print(answer)
+#     return answer
+    
+# solution('011')
 
-# cctv_arr = [
-#     [],
-#     [[0], [1], [2], [3]],
-#     [[0, 1], [2, 3]],
-#     [[0, 3], [3, 1], [1, 2], [2, 0]],
-#     [[2, 0, 3], [0, 3, 1], [3, 1, 2], [1, 2, 0]],
-#     [[0, 1, 2, 3]]
-# ]
+# def solution(numbers):
+#     num_list = list(map(str, numbers))
+#     num_list.sort(key=lambda x : x * 3, reverse=True)
+#     return str(int(''.join(num_list)))
+# print(solution([0, 0, 0, 0]))
+# solution([3, 30, 34, 5, 9])
 
-# dx = [-1, 1, 0, 0]
-# dy = [0, 0, -1, 1]
+# def solution(topping):
+#     from collections import Counter
+#     counter = Counter(topping)
+#     answer =0
+#     check = set()
+#     for i in topping:
+#         counter[i] -= 1
+#         check.add(i)
+#         if counter[i] == 0:
+#             counter.pop(i)
+#         if len(counter) == len(check):
+#             answer += 1
+#     return answer
 
-# cctv = []
-# for i in range(n):
-#     for j in range(m):
-#         if graph[i][j] > 0 and graph[i][j] < 6:
-#             cctv.append((i, j, graph[i][j]))
+# print(solution([1, 2, 1, 3, 1, 4, 1, 2]))
 
+# def solution(bridge_length, weight, truck_weights):
+#     answer = 0
+#     bridge = [0 for _ in range(bridge_length)]
 
-# def watch(board, move, x, y):
-#     for i in move:
-#         nx = x
-#         ny = y
+#     while bridge:
+#         answer += 1
+#         bridge.pop(0)
+#         if truck_weights:
+#             if sum(bridge) + truck_weights[0] <= weight:
+#                 t = truck_weights.pop(0)
+#                 bridge.append(t)
+#             else:
+#                 bridge.append(0)
+#     return answer
+
+# print(solution(2, 10, [7,4,5,6]))
+
+# def solution(numbers):
+#     stack = []
+#     answer = [-1 for _ in range(len(numbers))]
+#     stack.append(0)
+
+#     for i in range(1, len(numbers)):
+#         while stack and numbers[stack[-1]] < numbers[i]:
+#             answer[stack.pop()] = numbers[i]
+#         stack.append(i)
+
+# solution([2,3,3,5])
+
+# def solution(numbers):
+#     arr = []
+#     for number in numbers:
+#         bin_number = bin(number)[2:]
+#         bin_len = len(bin_number)
 #         while True:
-#             nx += dx[i]
-#             ny += dy[i]
-#             if nx < 0 or ny < 0 or nx >= n or ny >= m:
+#             count = 0
+#             number += 1
+#             bin_number_2 = bin(number)[2:]
+#             bin_number_2 = bin_number_2[-bin_len:]
+#             for i in range(len(bin_number)):
+#                 if bin_number[i] != bin_number_2[i]:
+#                     count += 1
+#             if count <= 2:
+#                 arr.append(number)
 #                 break
-#             if board[nx][ny] == 6:
-#                 break
-#             elif board[nx][ny] == 0:
-#                 board[nx][ny] = '#'
-                
+#     print(arr)
 
-# min_value = 1e9
+# solution([2, 7])
 
-# def backtracking(depth, graph):
-#     global min_value
-    
-#     if depth == len(cctv):
+# def solution(word):
+#     from itertools import product
+#     arr = ['A','E','I','O','U']
+#     answer = []
+#     for i in range(1, len(arr) + 1):
+#         for case in list(product(arr, repeat=i)):
+#             answer.append(''.join(case))
+#     answer.sort()
+#     return answer.index(word) - 1
+
+# print(solution('AAAE'))
+
+
+# def solution(skill, skill_trees):
+#     answer = 0
+#     for skills in skill_trees:
+#         stack = ''
+#         for i in skills:
+#             if i in skill:
+#                 stack += i
+#         print(stack)
+#         if skill[:len(stack)] == stack:
+#             answer += 1
+#         print(answer)
+#     return answer
+
+# print(solution([[1,2,3,5],[5,6,7,8],[4,3,2,1]]))
+
+# def solution(prices):
+#     from collections import deque
+#     queue = deque(prices)
+#     answer = []
+#     while queue:
 #         count = 0
-#         for i in range(n):
-#             count += graph[i].count(0)
-#         min_value = min(min_value, count)
-#         return
-    
-#     temp_graph = copy.deepcopy(graph)
-#     x, y, cctv_num = cctv[depth]
-#     for i in cctv_arr[cctv_num]:
-#         watch(temp_graph, i, x, y)
-#         backtracking(depth + 1, temp_graph)
-#         temp_graph = copy.deepcopy(graph)
-        
-# backtracking(0, graph)
-# print(min_value)
+#         now = queue.popleft()
 
-# arr = list(map(int, input().split()))
-# n, target = map(int, input().split())
+#         for i in queue:
+#             count += 1
+#             if now > i:
+#                 break
+#         answer.append(count)
+#     return answer
 
-# def binary_search(arr, target, start, end):
-#     while start <= end:
-#         mid = (start + end) // 2
-#         if target == arr[mid]:
-#             return mid
-#         elif arr[mid] > target:
-#             end = mid - 1
+# print(solution([1,2,3,2,3]))
+
+# def solution(clothes):
+#     dic = dict()
+#     answer = 0
+#     for value, key in clothes:
+#         if key not in dic:
+#             dic[key] = [value]
 #         else:
-#             start = mid + 1
-#     return None
+#             dic[key].append(value)
+#     arr = list(dic.values())
+#     for i in arr:
+#         answer *= len(i) + 1
+#     return answer - 1
+# solution([["yellow_hat", "headgear"], ["blue_sunglasses", "eyewear"], ["green_turban", "headgear"]])
 
-# result = binary_search(arr, target, 0, n - 1)
-# if result == None:
-#     print('None')
-# else:
-#     print(result)
+# def solution(prices):
+#     from collections import deque
+#     answer = []
+#     queue = deque(prices)
+#     while queue:
+#         count = 0
+#         now = queue.popleft()
+#         for i in queue:
+#             count += 1
+#             if now > i:
+#                 break
+#         answer.append(count)
+#     print(answer)
+#     return answer
 
-# n, m = map(int, input().split())
-# trees = list(map(int, input().split()))
+# solution([1,2,3,2,3])
+# solution([3,2,4,2,6,7])
 
-# start = 1
-# end = max(trees)
+# def solution(scoville, k):
+#     answer = 0
+#     import heapq
+#     heapq.heapify(scoville)
+#     while True:
+#         if len(scoville) == 1 and scoville[0] < k:
+#             return -1
+#         first = heapq.heappop(scoville)
+#         if first < k:
+#             answer += 1
+#             second = heapq.heappop(scoville)
+#             mix = first + second * 2
+#             heapq.heappush(scoville, mix)
+#         else:
+#             return answer
+# solution([1,2,3,9,10,12], 7)
 
-
-# while start <= end:
-#     mid = (start + end) // 2
-    
-#     total = 0
-    
-#     for tree in trees:
-#         if tree > mid:
-#             total += tree - mid
-#     if total >= m:
-#         start = mid + 1
+# def convert(num, base):
+#     import string
+#     q, r = divmod(num, base)
+#     number = string.digits + string.ascii_uppercase
+#     if q == 0:
+#         return number[r]
 #     else:
-#         end = mid - 1
+#         return convert(q, base) + number[r]
 
-# print(end)
+# def solution(want, number, discount):
+#     answer = 0
+#     from collections import Counter
+#     dic = dict()
+#     for want, num in zip(want, number):
+#         dic[want] = num
+#     for i in range(len(discount) - 9):
+#         counter = Counter(discount[i:i+10])
+#         if counter == dic:
+#             answer += 1
+#     print(answer)
+#     return answer
 
-# k, n = map(int, input().split())
-# lans = []
-# for _ in range(k):
-#     lan = int(input())
-#     lans.append(lan)
-
-# start = 1
-# end = max(lans)
-
-# def binary_search(lans, start, end):
-#     while start <= end:
-#         mid = (start + end) // 2
-#         total = 0
-        
-#         for lan in lans:
-#             total += lan // mid
-        
-#         if total >= n:
-#             start = mid + 1
+# def solution(numbers, target):
+#     answer = 0
+#     def back_tracking(depth, cnt):
+#         nonlocal answer
+#         if depth == len(numbers):
+#             if cnt == target:
+#                 answer += 1
+#                 return
 #         else:
-#             end = mid - 1
-#     return end
-
-# print(binary_search(lans, start, end))
-
-# n = int(input())
-# cards = list(map(int, input().split()))
-# m = int(input())
-# find = list(map(int, input().split()))
-
-# cards.sort()
-
-# def binary_search(arr, target, start, end):
-#     while start <= end:
-#         mid = (start + end) // 2
-        
-#         if target == arr[mid]:
-#             return True
-#         elif arr[mid] > target:
-#             end = mid - 1
-#         else:
-#             start = mid + 1
-            
-#     return False
-
-# for i in find:
-#     result = binary_search(cards, i, 0, n - 1)
-#     if result:
-#         print(1, end=' ')
-#     else:
-#         print(0, end=' ')
-
-# n, c = map(int, input().split())
-# arr = []
-# for _ in range(n):
-#     a = int(input())
-#     arr.append(a)
-# arr.sort()
-
-# start = 1
-# end = arr[-1] - arr[0]
-# answer = 0
-# def binary_search(arr, start, end):
-#     global answer
-#     while start <= end:
-#         mid = (start + end) // 2
-#         current = arr[0]
-#         count = 1
-#         for i in range(1, len(arr)):
-#             if arr[i] >= current + mid:
-#                 count += 1
-#                 current = arr[i]
-        
-#         if count >= c:
-#             start = mid + 1
-#             answer = mid
-#         else:
-#             end = mid - 1
-            
-# binary_search(arr, start, end)
-# print(answer)
+#             back_tracking(depth + 1, cnt + numbers[depth])
+#             back_tracking(depth + 1, cnt - numbers[depth])
+#     back_tracking(0, 0)
+#     return answer
 
 
-# n, m, k = map(int, input().split())
-# graph = [[[] * n for _ in range(n)] for _ in range(n)]
-# fire_ball = []
+# print(solution([1, 1, 1, 1, 1], 3))
 
-# dx = [-1, -1, 0, 1, 1, 1, 0, -1]
-# dy = [0, 1, 1, 1, 0, -1, -1, -1]
+def isPalindrome(x):
+    if x==x[::-1]:
+        return True
+def solution(s):
+    MAX=0
+    for i in range(len(s)):
+        for j in range(i+1,len(s)+1):
+            if isPalindrome(s[i:j]):
+                if MAX<len(s[i:j]):
+                    MAX=len(s[i:j])
+    return MAX
 
-# for _ in range(m):
-#     r, c, m, s, d = map(int, input().split())
-#     fire_ball.append((r - 1, c - 1, m, s, d))
-
-
-
-# def print_graph():
-#     global graph
-#     for i in graph:
-#         print(i)
-
-# # print_graph()
-
-# for _ in range(k):
-#     while fire_ball:
-#         r, c, m, s, d = fire_ball.pop()
-#         nr = (r + s * dx[d]) % n
-#         nc = (c + s * dy[d]) % n
-#         graph[nr][nc].append((m, s, d))
-
-#     for x in range(n):
-#         for y in range(n):
-#             if len(graph[x][y]) >= 2:
-#                 sum_m, sum_s, count, eval, odd = 0, 0, len(graph[x][y]), 0, 0
-#                 while graph[x][y]:
-#                     m, s, d = graph[x][y].pop()
-#                     sum_m += m
-#                     sum_s += s
-#                     if d % 2 == 0:
-#                         eval += 1
-#                     else:
-#                         odd += 1
-#                 if count == eval or count == odd:
-#                     direct = [0, 2, 4, 6]
-#                 else:
-#                     direct = [1, 3, 5, 7]
-#                 if sum_m // 5:
-#                     for d in direct:
-#                         fire_ball.append((r, c, sum_m // 5, sum_s // count, d))
-#             if len(graph[x][y]) == 1:
-#                 mm, ss, dd = graph[x][y].pop()
-#                 fire_ball.append((x, y, mm, ss, dd))
-
-# answer = 0
-
-# for i in fire_ball:
-#     answer += i[2]
-# print(answer)
-
-# 상어 중학교
-import copy
-from collections import deque
-n, m = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(n)]
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
-
-## 무지개 블록이랑 그냥 일반 블록이랑 따로 구해줘야지 나중에 처리하기가 쉬워짐
-
-def find_block(x, y, block):
-    queue = deque()
-    queue.append((x, y))
-    block_cnt, rainbow_cnt = 1, 0
-    block, rainbow = [[x, y]] , []
-    
-
-    while queue:
-        x, y = queue.popleft()
-
-        for d in range(4):
-            nx = x + dx[d]
-            ny = y + dy[d]
-            
-            # 일반 블록일때
-            if 0 <= nx < n and 0 <= ny < n and visited[nx][ny] == False and graph[nx][ny] == block:
-                    visited[nx][ny] = True
-                    queue.append((nx, ny))
-                    block_cnt += 1
-                    block.append([nx, ny])
-            
-            # 무지개 블록일때
-            elif 0 <= nx < n and 0 <= ny < n and visited[nx][ny] == False and graph[nx][ny] == 0:
-                    visited[nx][ny] = True
-                    queue.append((nx, ny))
-                    rainbow_cnt += 1
-                    block_cnt += 1
-                    rainbow.append([nx, ny])
-    for x, y in rainbow:
-        visited[x][y] = False
-    
-    return [block_cnt, rainbow_cnt, block + rainbow]
-
-
-def remove_block(block):
-    for x, y in block:
-        graph[x][y] = -2
-
-def gravity():
-    for i in range(n - 2, -1, -1):
-        for j in range(n):
-            if graph[i][j] > -1:
-                tmp = i
-                while True:
-                    if 0 <= tmp + 1 < n and graph[tmp + 1][j] == -2:
-                        graph[tmp + 1][j] = graph[tmp][j]
-                        graph[tmp][j] = -2
-                        tmp += 1
-                    else:
-                        break
-
-def rotate_reverse_90(graph):
-    graph = list(map(list, zip(*graph)))[::-1]
-    return graph
-
-answer = 0
-while True:
-    block = []
-    visited = [[False] * n for _ in range(n)]
-    for x in range(n):
-        for y in range(n):
-            if graph[x][y] > 0 and not visited[x][y] == False:
-                    visited[x][y] = True
-                    block_info = find_block(x, y, graph[x][y])
-                    if block_info[0] >= 2:
-                        block.append(block_info)
-    block = sorted(block, key= lambda x : (-x[0], -x[1], -x[2][0][0], -x[2][0][1]))
-    print(block)
-    print()
-    if not block:
-        break
-
-    remove_block(block[0][2])
-    answer += block[0][0] ** 2
-    gravity()
-    graph = rotate_reverse_90(graph)
-    gravity()
-
-print(answer)
+solution('abcdcba')
