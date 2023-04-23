@@ -85,27 +85,77 @@
 #     else:
 #         print(distance[i])
  
-import heapq
+# import heapq
 
-# 노드수, 간선수
+# # 노드수, 간선수
+# n, m = map(int, input().split())
+# # 시작 노드
+# start = int(input())
+# INF = int(1e9)
+
+# distance = [INF] * (n + 1)
+# graph = [[] for _ in range(n + 1)]
+
+# for _ in range(m):
+#     # a 노드에서 b 노드까지 가는 비용이 c이다.
+#     a, b, c = map(int, input().split())
+#     graph[a].append((b, c))
+
+# def dijkstra(start):
+#     queue = []
+#     heapq.heappush(queue, (0, start))
+#     distance[start] = 0
+
+#     while queue:
+#         dist, now = heapq.heappop(queue)
+#         if distance[now] < dist:
+#             continue
+#         for i in graph[now]:
+#             cost = dist + i[1]
+#             if cost < distance[i[0]]:
+#                 distance[i[0]] = cost
+#                 heapq.heappush(queue, (cost, i[0]))
+
+# dijkstra(start)
+# print(distance)
+# for i in range(1, n + 1):
+#     if distance[i] == INF:
+#         print(INF)
+#     else:
+#         print(distance[i])
+
+
+# 6 11
+# 1
+# 1 2 2
+# 1 3 5
+# 1 4 1
+# 2 3 3
+# 2 4 2
+# 3 2 3
+# 3 6 5
+# 4 3 3
+# 4 5 1
+# 5 3 1
+# 5 6 2
+
 n, m = map(int, input().split())
-# 시작 노드
 start = int(input())
-INF = int(1e9)
 
-distance = [INF] * (n + 1)
 graph = [[] for _ in range(n + 1)]
-
 for _ in range(m):
-    # a 노드에서 b 노드까지 가는 비용이 c이다.
     a, b, c = map(int, input().split())
     graph[a].append((b, c))
 
+INF = int(1e9)
+distance = [INF] * (n + 1)
+
 def dijkstra(start):
+    import heapq
     queue = []
     heapq.heappush(queue, (0, start))
     distance[start] = 0
-
+    
     while queue:
         dist, now = heapq.heappop(queue)
         if distance[now] < dist:
@@ -123,18 +173,4 @@ for i in range(1, n + 1):
         print(INF)
     else:
         print(distance[i])
-
-
-# 6 11
-# 1
-# 1 2 2
-# 1 3 5
-# 1 4 1
-# 2 3 3
-# 2 4 2
-# 3 2 3
-# 3 6 5
-# 4 3 3
-# 4 5 1
-# 5 3 1
-# 5 6 2
+    
