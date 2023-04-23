@@ -270,16 +270,27 @@
 
 # print(solution([1, 1, 1, 1, 1], 3))
 
-def isPalindrome(x):
-    if x==x[::-1]:
-        return True
-def solution(s):
-    MAX=0
-    for i in range(len(s)):
-        for j in range(i+1,len(s)+1):
-            if isPalindrome(s[i:j]):
-                if MAX<len(s[i:j]):
-                    MAX=len(s[i:j])
-    return MAX
+# def isPalindrome(x):
+#     if x==x[::-1]:
+#         return True
+# def solution(s):
+#     MAX=0
+#     for i in range(len(s)):
+#         for j in range(i+1,len(s)+1):
+#             if isPalindrome(s[i:j]):
+#                 if MAX<len(s[i:j]):
+#                     MAX=len(s[i:j])
+#     return MAX
 
-solution('abcdcba')
+# solution('abcdcba')
+
+n = int(input())
+graph = [list(map(int, input().split())) for _ in range(n)]
+
+
+for i in range(1, len(graph)):
+    graph[i][0] = min(graph[i - 1][1], graph[i - 1][2]) + graph[i][0]
+    graph[i][1] = min(graph[i - 1][0], graph[i - 1][2]) + graph[i][1]
+    graph[i][2] = min(graph[i - 1][0], graph[i - 1][1]) + graph[i][2]
+
+print(min(graph[n-1]))
