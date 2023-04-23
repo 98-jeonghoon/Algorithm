@@ -53,7 +53,6 @@ def explore(init_graph):
     now_ball = init_graph[0]
     count = 1
     check_remove = False
-    
     if not init_graph:
         return [], check_remove
 
@@ -77,7 +76,6 @@ def explore(init_graph):
             init_graph[len(init_graph) - i] = 0
         check_remove = True
         result[now_ball - 1] += count
-    
     return init_graph, check_remove
                 
 def grouping(init_graph):

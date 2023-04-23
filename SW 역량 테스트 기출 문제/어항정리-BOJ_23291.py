@@ -6,6 +6,7 @@ n, k = map(int, input().split())
 fish_bowl = list(map(int, input().split()))
 graph = [[fish] for fish in fish_bowl]
 
+print(graph)
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
