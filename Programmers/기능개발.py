@@ -22,20 +22,25 @@
 #     return answer
 
 def solution(progresses, speeds):
+    from collections import deque
+    arr = []
+    for i in range(len(progresses)):
+        cnt = 0
+        while True:
+            if progresses[i] >= 100:
+                arr.append(cnt)
+                break
+            cnt += 1
+            progresses[i] += speeds[i]
+    queue = deque(arr)
     answer = []
-    count = 0
-    while progresses:
-        if progresses[0] + speeds[0] >= 100:
-            progresses.pop(0)
-            speeds.pop(0)
-            count += 1
-        else:
-            if count:
-                answer.append(count)
-                count = 0
-            for i in range(len(progresses)):
-                progresses[i] += speeds[i]
-    answer.append(count)
+    while queue:
+        res = 1
+        now = queue.popleft()
+        while queue and now >= queue[0]:
+            queue.popleft()
+            res += 1
+        answer.append(res)
     return answer
 
 print(solution([93, 30, 55], [1, 30, 5]))
