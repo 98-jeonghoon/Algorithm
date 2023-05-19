@@ -284,13 +284,110 @@
 
 # solution('abcdcba')
 
-n = int(input())
-graph = [list(map(int, input().split())) for _ in range(n)]
+# n = int(input())
+# graph = [list(map(int, input().split())) for _ in range(n)]
 
 
-for i in range(1, len(graph)):
-    graph[i][0] = min(graph[i - 1][1], graph[i - 1][2]) + graph[i][0]
-    graph[i][1] = min(graph[i - 1][0], graph[i - 1][2]) + graph[i][1]
-    graph[i][2] = min(graph[i - 1][0], graph[i - 1][1]) + graph[i][2]
+# for i in range(1, len(graph)):
+#     graph[i][0] = min(graph[i - 1][1], graph[i - 1][2]) + graph[i][0]
+#     graph[i][1] = min(graph[i - 1][0], graph[i - 1][2]) + graph[i][1]
+#     graph[i][2] = min(graph[i - 1][0], graph[i - 1][1]) + graph[i][2]
 
-print(min(graph[n-1]))
+# print(min(graph[n-1]))
+
+# s = input()
+
+# arr = []
+# for i in s:
+#     if i in ['(', ')' ,'[', ']']:
+#         arr.append(i)
+
+# stack = []
+
+
+# for i in arr:
+#     if stack == []:
+#         stack.append(i)
+#     else:
+#         if stack[-1] == '(' and i == ')':
+#             stack.pop()
+#         elif stack[-1] == '[' and i == ']':
+#             stack.pop()
+#         else:
+#             stack.append(i)
+
+# if stack == []:
+#     print(1)
+# else:
+#     print(0)
+
+# dijkstra
+
+# n = int(input())
+# m = int(input())
+
+# graph = [[] * (n + 1) for _ in range(n + 1)]
+# distance = [1e9] * (n + 1)
+
+# for _ in range(m):
+#     a, b, c = map(int, input().split())
+#     graph[a].append((b, c))
+
+# start, destination = map(int, input().split())
+
+# def dijkstra(start):
+#     import heapq
+#     queue = []
+#     # heapq에 cost, 방문노드 순으로 넣음
+#     heapq.heappush(queue, (0, start))
+#     distance[start] = 0
+
+#     while queue:
+#         dist, now = heapq.heappop(queue)
+#         # 현재 비용이 더 작을경우 바꿔줄 필요가 없음
+#         if distance[now] < dist:
+#             continue
+    
+#         for i in graph[now]:
+#             cost = dist + i[1]
+#             if cost < distance[i[0]]:
+#                 distance[i[0]] = cost
+#                 heapq.heappush(queue, (cost, i[0]))
+
+# dijkstra(start)
+# print(distance[destination])
+
+
+n, m, x = map(int, input().split())
+graph = [[] * (n + 1) for _ in range(n + 1)]
+
+for _ in range(m):
+    a, b, c = map(int, input().split())
+    graph[a].append((b, c))
+
+def dijkstra(start):
+    import heapq
+    INF = int(1e9)
+    distance = [INF] * (n + 1)
+    queue = []
+    heapq.heappush(queue, (0, start))
+    distance[start] = 0
+
+    while queue:
+        dist, now = heapq.heappop(queue)
+        if dist < distance[now]:
+            continue
+        for i in graph[now]:
+            cost = dist + i[1]
+            if cost < distance[i[0]]:
+                distance[i[0]] = cost
+                heapq.heappush(queue, (cost, i[0]))
+    return distance
+
+
+answer = 0
+for i in range(1, n + 1):
+    go = dijkstra(i)
+    back = dijkstra(x)
+    answer = max(answer, go[x] + back[i])
+print(answer)

@@ -10,6 +10,8 @@ for _ in range(m):
     a, b, c = map(int, input().split())
     graph[a].append((b, c))
 
+for i in graph:
+    print(i)
 start, destination = map(int, input().split())
 
 def dijkstra(start):
