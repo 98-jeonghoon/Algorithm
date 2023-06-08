@@ -130,24 +130,18 @@ def step_tree():
     death_graph[tmp_x][tmp_y] = c + 1
     graph[tmp_x][tmp_y] = 0
 
-    # 4방향을 돌면서
     for d in range(4):
-        # k만큼 이동한다
         for move in range(1, k + 1):
             nx = tmp_x + d_dx[d] * move
             ny = tmp_y + d_dy[d] * move
-            # 범위를 벗어나지 않고
             if 0 <= nx < n and 0 <= ny < n:
-                # 벽을 만난다면 바로 탈출
                 if graph[nx][ny] == -1:
                     break
-                # 만약 해당칸에 나무가 없다면 해당 칸까지만 제초제를 뿌리고 멈춤
                 if graph[nx][ny] == 0:
                     death_graph[nx][ny] = c + 1
                     graph[nx][ny] = 0
                     break
                 
-                # 위에 조건에 해당사항이 없다면 제초제를 계속 뿌리면서 해당 칸의 나무를 0으로 만듬
                 death_graph[nx][ny] = c + 1
                 graph[nx][ny] = 0
     
@@ -158,12 +152,9 @@ def step_tree():
 
 # 제초제가 1년 지날때마다 사라지는 함수
 def step_four():
-    # 완전탐색을 진행하면서
     for i in range(n):
         for j in range(n):
-            # 제초제가 있는 칸을
             if death_graph[i][j] > 0:
-                # 년수가 지날때마다 하나씩 줄여줌
                 death_graph[i][j] -= 1
 
 for _ in range(m):
